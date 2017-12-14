@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Theappnow_PromotionalService>
+            <version>0.1.0</version>
+        </Theappnow_PromotionalService>
+    </modules>
+    <frontend>
+        <!--     <routers>
+              <promotionalservice>
+                <use>standard</use>
+                  <args>
+                    <module>Theappnow_PromotionalService</module>
+                    <frontName>promotionalservice</frontName>
+                  </args>
+              </promotionalservice>
+            </routers> -->
+        <layout>
+            <updates>
+                <promotionalservice>
+                    <file>theappnow_specialservice.xml</file>
+                </promotionalservice>
+            </updates>
+        </layout>
+        <events>
+            <!-- 	<sales_quote_add_item>
+                    <observers>
+                        <update_service_price>
+                            <type>model</type>
+                            <class>Theappnow_PromotionalService_Model_Observer</class>
+                            <method>beforeAdd</method>
+                        </update_service_price>
+                    </observers>
+                </sales_quote_add_item> -->
+            <checkout_cart_product_add_after>
+                <observers>
+                    <checkout_add_after>
+                        <type>model</type>
+                        <class>Theappnow_PromotionalService_Model_Observer</class>
+                        <method>checkoutAddAfter</method>
+                    </checkout_add_after>
+                </observers>
+            </checkout_cart_product_add_after>
+            <!--<sales_order_save_after>-->
+                <!--<observers>-->
+                    <!--<theappnow_promotionalservice>-->
+                        <!--<type>singleton</type>-->
+                        <!--<class>Theappnow_PromotionalService_Model_Observer</class>-->
+                        <!--<method>gatherData</method>-->
+                    <!--</theappnow_promotionalservice>-->
+                <!--</observers>-->
+            <!--</sales_order_save_after>-->
+            <paypal_prepare_line_items>
+                <observers>
+                    <theappnow_promotionalservice>
+                        <type>singleton</type>
+                        <class>Theappnow_PromotionalService_Model_Observer</class>
+                        <method>addScreenToPayPal</method>
+                    </theappnow_promotionalservice>
+                </observers>
+            </paypal_prepare_line_items>
+        </events>
+    </frontend>
+    <default>
+        <sales>
+            <totals_sort>
+                <theappnow_promotionalservice>15</theappnow_promotionalservice>
+            </totals_sort>
+        </sales>
+    </default>
+    <global>
+        <!-- <rewrite>
+            <theappnow_promotionalservice_checkout_cartcontroller>
+                <from><![CDATA[#^/checkout/cart/#]]></from>
+                <to>/promotionalservice/checkout_cart/</to>
+            </theappnow_promotionalservice_checkout_cartcontroller>
+        </rewrite> -->
+
+        <fieldsets>
+            <sales_convert_quote_address>
+                <new_logo_artwork_setup>
+                    <to_order>*</to_order>
+                </new_logo_artwork_setup>
+                <base_new_logo_artwork_setup>
+                    <to_order>*</to_order>
+                </base_new_logo_artwork_setup>
+            </sales_convert_quote_address>
+        </fieldsets>
+
+        <helpers>
+            <promotionalservice>
+                <class>Theappnow_PromotionalService_Helper</class>
+            </promotionalservice>
+        </helpers>
+        <blocks>
+            <theappnow_promotionalservice>
+                <class>Theappnow_PromotionalService_Block</class>
+            </theappnow_promotionalservice>
+            <!--<tax>-->
+                <!--<rewrite>-->
+                    <!--<checkout_grandtotal>Theappnow_PromotionalService_Block_Grandtotal</checkout_grandtotal>-->
+                <!--</rewrite>-->
+            <!--</tax>-->
+            <!--<adminhtml>-->
+            <!--<rewrite>-->
+            <!--<sales_order_totals>Theappnow_PromotionalService_Adminhtml_Block_Sales_Order_Totals</sales_order_totals>-->
+            <!--<sales_order_invoice_totals>Theappnow_PromotionalService_Adminhtml_Block_Sales_Order_Invoice_Totals</sales_order_invoice_totals>-->
+            <!--<sales_order_creditmemo_totals>Theappnow_PromotionalService_Adminhtml_Block_Sales_Order_Creditmemo_Totals</sales_order_creditmemo_totals>-->
+            <!--</rewrite>-->
+            <!--</adminhtml>-->
+        </blocks>
+
+        <models>
+            <!--<promotionalservice>-->
+            <!--<class>Theappnow_PromotionalService_Model</class>-->
+            <!--<resourceModel>promotionalservice_mysql4</resourceModel>-->
+            <!--</promotionalservice>-->
+            <!--<promotionalservice_mysql4>-->
+            <!--<class>Theappnow_PromotionalService_Model_Mysql4</class>-->
+            <!--<entities>-->
+            <!--<promotionalservice>-->
+            <!--<table>promotional_services</table>-->
+            <!--</promotionalservice>-->
+            <!--</entities>-->
+            <!--</promotionalservice_mysql4>-->
+            <sales>
+                <rewrite>
+                    <order_pdf_invoice>Theappnow_PromotionalService_Model_Order_Pdf_Invoice</order_pdf_invoice>
+                    <order_pdf_creditmemo>Theappnow_PromotionalService_Model_Order_Pdf_Creditmemo</order_pdf_creditmemo>
+                </rewrite>
+            </sales>
+        </models>
+
+        <resources>
+            <promotionalservice_setup>
+                <setup>
+                    <module>Theappnow_PromotionalService</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </promotionalservice_setup>
+            <promotionalservice_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </promotionalservice_write>
+            <promotionalservice_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </promotionalservice_read>
+        </resources>
+
+
+        <sales>
+            <quote>
+                <totals>
+                    <theappnow_promotionalservice>
+                        <class>Theappnow_PromotionalService_Model_Quote_Address_Total</class>
+                        <after>subtotal</after>
+                        <before>tax</before>
+                    </theappnow_promotionalservice>
+                </totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <theappnow_promotionalservice>
+                        <class>Theappnow_PromotionalService_Model_Order_Invoice_Total</class>
+                        <after>subtotal</after>
+                        <before>tax</before>
+                    </theappnow_promotionalservice>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <theappnow_promotionalservice>
+                        <class>Theappnow_PromotionalService_Model_Order_Creditmemo_Total</class>
+                        <after>subtotal</after>
+                        <before>tax</before>
+                    </theappnow_promotionalservice>
+                </totals>
+            </order_creditmemo>
+
+        </sales>
+    </global>
+    <!-- <admin>
+      <routers>
+        <promotionalservice>
+          <use>admin</use>
+          <args>
+            <module>Theappnow_PromotionalService</module>
+            <frontName>admin_promotionalservice</frontName>
+          </args>
+        </promotionalservice>
+      </routers>
+    </admin> -->
+    <adminhtml>
+        <!-- 	<menu>
+              <promotionalservice module="promotionalservice">
+                <title>PromotionalService</title>
+                <sort_order>100</sort_order>
+                <children>
+                  <promotionalservice module="promotionalservice">
+                    <title>Manage Promotionalservice</title>
+                    <sort_order>0</sort_order>
+                    <action>admin_promotionalservice/adminhtml_promotionalservice</action>
+                  </promotionalservice>
+                </children>
+              </promotionalservice>
+            </menu> -->
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <promotionalservice translate="title" module="promotionalservice">
+                            <title>Promotional Service</title>
+                            <sort_order>1000</sort_order>
+                            <children>
+                                <promotionalservice translate="title">
+                                    <title>Manage</title>
+                                    <sort_order>0</sort_order>
+                                </promotionalservice>
+                            </children>
+                        </promotionalservice>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <promotionalservice module="promotionalservice" translate="title">
+                                            <title>Promotional service</title>
+                                            <sort_order>1</sort_order>
+                                        </promotionalservice>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <promotionalservice>
+                    <file>promotionalservice.xml</file>
+                </promotionalservice>
+            </updates>
+        </layout>
+    </adminhtml>
+</config> 

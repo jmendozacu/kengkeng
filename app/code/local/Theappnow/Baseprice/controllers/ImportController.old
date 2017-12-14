@@ -1,0 +1,956 @@
+<?php
+/**
+ * Project name promotional
+ * Created by:
+ * User: Hoang Van Cong
+ * Company: Theappnow.com
+ * Email: conghv@theappnow.com
+ * Date: 3/1/2017
+ * Time: 8:42 AM
+ */
+
+
+class Theappnow_Baseprice_Adminhtml_ImportController extends Mage_Adminhtml_Controller_Action{
+
+    public function productAction(){
+
+        $this->loadLayout();
+
+        $this->renderLayout();
+
+    }
+
+
+
+    public function getdatafileAction(){
+
+        $allowedExts = array("csv");
+
+        $temp = explode(".", $_FILES["productfeed"]["name"]);
+
+        $extension = end($temp);
+
+        $k = 1;
+
+        $result = array();
+
+        $maps = array();
+
+        if(in_array($extension,$allowedExts)){
+
+
+
+            if (($handle = fopen($_FILES["productfeed"]["tmp_name"], "r")) !== FALSE) {
+
+                while (($row = fgetcsv($handle, 10000, ",")) !== FALSE) {
+
+                    if ( $k == 1) {
+                        $maps['maps'] = $row;
+
+                    }
+
+                    $k++;
+
+                }
+
+            }
+
+            $mapping = '<table class="table-mapping">';
+
+            $mapping .= '<tr>';
+
+            $mapping .= '<th>Fields in csv file<br/>(first row)</th>';
+
+            $mapping .= '<th>Product\'s Attribute</th>';
+
+            $mapping .= '<tr>';
+
+            foreach($maps['maps'] as $k=>$v){
+
+                $mapping .= '<tr>';
+
+                $mapping .= '<td>'.$v.'</td>';
+
+                $mapping .= '<td>'.$this->getSelectFields($k).'</td>';
+
+                $mapping .= '</tr>';
+
+            }
+
+            $mapping .= '</table>';
+
+            $result['mapFields'] = $mapping;
+
+            echo json_encode($result);
+
+        }else{
+
+            echo '0';
+
+        }
+
+
+
+    }
+
+    public function updateProductAction(){
+        $defaultTax = (int)Mage::getStoreConfig('trophyimport/general/tax');
+        if(!$defaultTax){
+            $defaultTax = 100;
+        }
+        $defaultTax = $defaultTax / 100;
+        $startTime = microtime(true);
+
+        $write = Mage::getSingleton('core/resource')->getConnection('core_write');
+
+        if($post = $this->getRequest()->getPost()){
+
+            $categories = array();
+
+            $categories[] = 2;
+
+            $i = 0;
+
+            $categoryMapping = array();
+
+            if (($handle = fopen(Mage::getBaseDir() . "/shell/categories-mapping.csv", "r")) !== FALSE) {
+
+                while (($rowmaping = fgetcsv($handle, 10000, ",")) !== FALSE) {
+
+                    if ($i > 0) {
+
+                        $categoryMapping[trim($rowmaping[0])][] = trim($rowmaping[1]);
+
+                        $categoryMapping[trim($rowmaping[0])][] = trim($rowmaping[2]);
+
+                    }
+
+                    $i++;
+
+                }
+
+            }
+
+            $attributeSetId = 4;
+
+            $website_ids = array(1);
+
+            $typeId = Mage_Catalog_Model_Product_Type::TYPE_SIMPLE;
+
+            foreach ($post['mapFields'] as $k => $code) {
+
+                if($code=='trophy_size'){
+
+                    $typeId = Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE;
+
+                    break;
+
+                }
+
+            }
+
+
+
+            $type = $post['importType'];
+
+            $attr = array('printing_type', 'trophy_size');
+
+            ob_start();
+
+            $j = 1;
+
+            $rows = array();
+
+            if (($handle = fopen($_FILES["productfeed"]["tmp_name"], "r")) !== FALSE) {
+
+                while (($row = fgetcsv($handle, 10000, ",")) !== FALSE) {
+
+                    if ($j > 1) {
+
+                        $rows[] = $row;
+
+                        ob_end_flush();
+
+                        ob_flush();
+
+                    }
+
+                    $j++;
+
+                }
+
+            }
+
+            if(count($rows)) {
+
+                echo ucfirst($type) . ' product <br/>';
+
+                $n = 1;
+
+                foreach ($rows as $row) {
+
+                    $exitsProduct = false;
+                    $qty = 0;
+
+                    if ($product = $this->getProductBySku($row, $post['mapFields'])) {
+
+                        $exitsProduct = true;
+
+                    } else {
+
+                        $product = Mage::getModel('catalog/product');
+
+                        $product->setData('type_id', $typeId);
+
+                        $product->setData('attribute_set_id', $attributeSetId);
+
+                    }
+
+                    if ($product) {
+
+                        $image = '';
+
+                        $trophySize = '';
+
+                        $product->setData('website_ids', $website_ids);
+
+                        $product->setData('visibility', Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
+
+                        $product->setData('weight', 1);
+
+                        $product->setIsMassupdate(true);
+
+                        $product->setExcludeUrlRewrite(true);
+
+                        $product->setData('tax_class_id', 0);
+
+                        $product->setCategoryIds($categories);
+
+                        foreach ($post['mapFields'] as $k => $code) {
+
+                            //product name
+
+                            if ($code == 'name') {
+
+                                $product->setData('name', trim($row[$k]));
+
+                                $product->setData('url-key', Mage::getModel('catalog/product_url')->formatUrlKey(trim($row[$k])));
+
+                            }
+
+                            // description
+
+                            if ($code == 'description') {
+
+                                $product->setData('short_description', $row[$k]);
+
+                                $product->setData('description', $row[$k]);
+
+                            }
+
+                            //sku
+
+                            if ($code == 'sku') {
+
+                                $product->setData('sku', trim($row[$k]));
+
+                            }
+
+                            //price
+
+                            if ($code == 'price') {
+                                $priceDefault = number_format((float)(trim($row[$k])) * 1.1 * $defaultTax ,2);
+                                //die($priceDefault);
+
+                                if($id_product=$product->getId()){
+                                    $resource = Mage::getSingleton('core/resource');
+                                    $table = $resource->getTableName('catalog/product').'_tier_price';
+                                    $write->query("DELETE FROM $table WHERE entity_id = $id_product");
+                                }
+
+
+                                $tierPrice = array(
+                                    array(
+                                        'website_id' => 0,
+                                        'cust_group' => 32000,
+                                        'price_qty' => 6,
+                                        'price' => number_format((float)$priceDefault * 0.97,2)
+
+                                    ),
+                                    array(
+                                        'website_id' => 0,
+                                        'cust_group' => 32000,
+                                        'price_qty' => 21,
+                                        'price' => number_format((float)$priceDefault * 0.92,2)
+
+                                    ),
+                                    array(
+                                        'website_id' => 0,
+                                        'cust_group' => 32000,
+                                        'price_qty' => 51,
+                                        'price' => number_format((float)$priceDefault  * 0.9,2)
+
+                                    ),
+                                    array(
+                                        'website_id' => 0,
+                                        'cust_group' => 32000,
+                                        'price_qty' => 101,
+                                        'price' => number_format((float)$priceDefault  * 0.88,2)
+
+                                    ),
+                                    array(
+                                        'website_id' => 0,
+                                        'cust_group' => 32000,
+                                        'price_qty' => 201,
+                                        'price' => number_format((float)$priceDefault * 0.8,2)
+
+                                    ),
+
+                                );
+                                //var_dump($tierPrice);die;
+                                if($id_product=$product->getId()){
+                                    $this->updatePrice($id_product,$priceDefault,$tierPrice);
+                                }else{
+                                    $product->setPrice($priceDefault);
+                                    $product->setTierPrice($tierPrice);
+                                }
+                            }
+
+                            //status
+
+                            if ($code == 'status') {
+
+                                $status = 2;
+
+                                if (trim($row[$k]) == 'publish' || trim($row[$k]) == 1) {
+
+                                    $status = 1;
+
+                                }
+
+                                $product->setData('status', $status);
+
+                            }
+
+                            //stock
+
+                            if ($code == 'stock_status') {
+
+                                $qty = trim($row[$k]);
+
+                            }
+
+                            //category
+
+                            if ($code == 'category') {
+
+                                $product->setCategoryIds($this->getCategoryIds($categoryMapping, $row[$k]));
+
+                            }
+
+                            //image
+
+                            if ($code == 'image') {
+
+                                $image = $row[$k];
+
+                            }
+
+
+
+                            //trophysize
+
+                            if ($code == 'trophy_size') {
+
+                                $this->importTrophySize($row[$k]);
+
+                                $trophySize = $row[$k];
+
+                            }
+
+                        }
+
+                        //supper attributes
+
+
+
+
+
+                        $product->save();
+
+                        if ($image != '') {
+
+                            $this->processImage($product->getId(), $image);
+
+                        }
+
+
+
+
+
+
+
+
+
+                        echo $n . ' &nbsp; <a href="' . $product->getProductUrl() . '">' . $product->getName() . '</a><br/>';
+
+                        sleep(1);
+
+                        flush();
+
+                        ob_end_flush();
+
+                        ob_flush();
+
+                        $n++;
+                        $this->_updateStocks($product->getId(),$qty);
+
+                    }
+
+
+
+                }
+
+                echo 'Total ' . ($n - 1) . ' products has been ' . $type . 'ed.<br/>';
+
+                echo 'Excution time: ' . (microtime(true) - $startTime);
+
+            }
+
+        }
+
+    }
+
+    protected function _getConnection($type = 'core_read')
+    {
+        return Mage::getSingleton('core/resource')->getConnection($type);
+    }
+    protected function _getTableName($tableName)
+    {
+        return Mage::getSingleton('core/resource')->getTableName($tableName);
+    }
+
+
+    protected function _updateStocks($productId,$qty)
+    {
+        $read = $this->_getConnection('core_read');
+        $connection = $this->_getConnection('core_write');
+        $stockId = null;
+        $totalQty = $qty;
+
+        $checkStatusSql = "
+            SELECT COUNT(*)
+            FROM {$this->_getTableName('cataloginventory_stock_status')}
+            WHERE product_id = ? AND website_id = ?
+        ";
+
+        $website = 1;
+        $newQty = $qty;
+        $stockStatus = 1;
+
+
+        $isInTable = $connection->fetchOne($checkStatusSql, array($productId, $website));
+
+        if ($isInTable) {
+            $sql = "
+                    UPDATE {$this->_getTableName('cataloginventory_stock_status')}
+                    SET qty = ?, stock_status = ?
+                    WHERE product_id = ? AND website_id = ?
+                ";
+
+            $connection->query($sql, array($newQty, $stockStatus, $productId, $website));
+        } else {
+            if (is_null($stockId)) {
+                $stockSql = "
+                        SELECT stock_id FROM {$this->_getTableName('cataloginventory_stock_item')}
+                        WHERE product_id = ?
+                    ";
+                $stockId = $connection->fetchOne($stockSql, array($productId));
+                $stockId = $stockId > 0 ? $stockId : 1;
+            }
+
+            $sql = "
+                    INSERT INTO {$this->_getTableName('cataloginventory_stock_status')}
+                    (product_id, website_id, stock_id, qty, stock_status) VALUES (?,?,?,?,?)
+                ";
+
+            $connection->query($sql, array($productId, $website, $stockId, $newQty, $stockStatus));
+        }
+
+        $checkItemSql = "SELECT COUNT(*) FROM {$this->_getTableName('cataloginventory_stock_item')} WHERE product_id = ?";
+        if ($read->fetchOne($checkItemSql, array($productId))) {
+            $updateItemSql = "
+                UPDATE {$this->_getTableName('cataloginventory_stock_item')}
+                SET qty = ?, is_in_stock = ?
+                WHERE product_id = ?
+            ";
+
+            $connection->query($updateItemSql, array($totalQty, 1, $productId));
+        } else {
+            $insertItemSql = "
+                INSERT INTO {$this->_getTableName('cataloginventory_stock_item')}
+                (product_id,stock_id,qty,use_config_min_qty,is_qty_decimal,use_config_backorders,use_config_min_sale_qty,use_config_max_sale_qty,is_in_stock,use_config_notify_stock_qty,use_config_manage_stock,use_config_qty_increments,use_config_enable_qty_inc)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+            ";
+
+            $connection->query($insertItemSql, array($productId, 1, $totalQty, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1));
+        }
+        return true;
+    }
+
+
+
+
+    protected function quickcreateAssociate($productId,$sizeLabel)
+
+    {
+
+        $website_ids = array(1);
+
+        $printingValue = 232;
+
+        $sizeValue = $this->getTrophyOptionValue('trophy_size',$sizeLabel);
+
+        //var_dump($sizeValue);die;
+
+        $product = Mage::getModel('catalog/product')->load($productId);
+
+        $childIds = Mage::getModel('catalog/product_type_configurable')->getChildrenIds($productId);
+
+        foreach ($childIds[0] as $val) {
+
+            $data[$val] = array();
+
+        }
+
+        $dataSave = array(
+
+            'visibility'=> Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE,
+
+            'status' => 1,
+
+            'weight'=>1,
+
+            'sku'=>$product->getSku().'-'.$printingValue.'-'.$sizeValue,
+
+            'trophy_size'=>$sizeValue,
+
+            'printing_type'=>$printingValue
+
+        );
+
+        $configproducts = Mage::getModel('catalog/product')->load($product->getId());
+
+        $magentoProductModel = Mage::getModel('catalog/product');
+
+        $magentoProductModel->setData($dataSave);
+
+        $magentoProductModel->setName($configproducts->getName(). $sizeLabel . $printingValue);
+
+        $magentoProductModel->setDescription($product->getDescription());
+
+        $magentoProductModel->setShortDescription($product->getShortDescription());
+
+        $magentoProductModel->setPrice($product->getPrice());
+
+
+
+        $magentoProductModel->setCategoryIds($product->getCategoryIds());
+
+        $magentoProductModel->setWebsiteIds($website_ids);
+
+        $magentoProductModel->setTypeId('simple');
+
+        $magentoProductModel->setAttributeSetId($configproducts->getAttributeSetId());
+
+        $magentoProductModel->setTaxClassId("None");
+
+        $magentoProductModel->setStockData(array(
+
+                'is_in_stock' => 1,
+
+                'qty' => 200
+
+            )
+
+        );
+
+        $saved = $magentoProductModel->save();
+
+        $lastid = $saved->getId();
+
+        $data[$lastid] = array();
+
+        $product->setConfigurableProductsData($data);
+
+        $product->setCanSaveConfigurableAttributes(true);
+
+        $product->save();
+
+        $configattr = Mage::getModel('catalog/product_type_configurable')->getConfigurableAttributesAsArray($configproducts);
+
+
+
+        $configproducts->setConfigurableAttributesData($configattr);
+
+        $configproducts->save();
+
+
+
+        return 0;
+
+    }
+
+
+
+    //get Trophy size
+
+    protected function getTrophyOptionValue($attributeCode,$optionLabel){
+
+        $attribute = Mage::getModel('eav/config')->getAttribute('catalog_product', $attributeCode);
+
+        $options = $attribute->getSource()->getAllOptions(true, true);
+
+        foreach($options as $option){
+
+            if($option['label']==$optionLabel){
+
+                return $option['value'];
+
+            }
+
+        }
+
+        return true;
+
+    }
+
+
+
+    //import attribute option: trophy size
+
+    protected function importTrophySize($optionText)
+
+    {
+
+        $arrOptionText = explode('|', $optionText);
+
+        $attribute = Mage::getModel('eav/config')->getAttribute('catalog_product', 'trophy_size');
+
+        $options = $attribute->getSource()->getAllOptions(true, true);
+
+        foreach ($arrOptionText as $newOption) {
+
+            $flag = true;
+
+            foreach ($options as $option) {
+
+                if (trim($newOption) == $option['label']) {
+
+                    $flag = false;
+
+                    break;
+
+                }
+
+            }
+
+            if ($flag) {
+
+                $attribute->setData('option', array('value' => array('option' => array(trim($newOption)))));
+
+                $attribute->save();
+
+            }
+
+        }
+
+    }
+
+
+
+    protected function getCategoryIds($arrCatMaping, $texmaping)
+
+    {
+
+        if (in_array(trim($texmaping), array_keys($arrCatMaping))) {
+
+            $arrCatName = $arrCatMaping[trim($texmaping)];
+
+        } else {
+
+            $arrCatName = explode('>', trim($texmaping));
+
+        }
+
+        $result = array('2');
+
+        foreach ($arrCatName as $name) {
+
+            $category = Mage::getResourceModel('catalog/category_collection')
+
+                ->addFieldToFilter('name', trim($name))
+
+                ->getFirstItem();
+
+
+
+            $result[] = $category->getId();
+
+
+
+        }
+
+        return $result;
+
+    }
+
+
+
+    protected function processImage($productId, $images)
+
+    {
+
+        $product = Mage::getModel('catalog/product')->setStoreId(0)->load($productId);
+
+        $base = Mage::getBaseDir();
+
+        $defaultImage = '';
+
+        $dir = $base . DS . 'var' . DS . 'tmp' . DS;
+
+        if (!is_dir($dir)) mkdir($dir, 0777, true);
+
+
+
+        $imgs = explode('|', $images);
+
+        foreach ($imgs as $image) {
+
+
+
+            try {
+                if(strpos($image,'http')){
+                    $rpos = strrpos($image, '/');
+                    $file = substr($image, $rpos + 1);
+                    if ($defaultImage == '') {
+                        $defaultImage = $file;
+                    }
+                    if (!file_exists($dir . $file)) {
+                        file_put_contents($dir . $file, file_get_contents($image));
+                    }
+                }else{
+                    $dir = $base . DS .'images'.DS;
+                    if (!is_dir($dir)) mkdir($dir, 0777, true);
+                    $file = str_replace(' ','',$image);
+                }
+                $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
+                $mediaGalleryAttribute = $attributes['media_gallery'];
+                /* @var $mediaGalleryAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                $pathImage = $mediaGalleryAttribute->getBackend()->addImage($product, $dir . $file, null, false, false);
+                $realImage = str_replace(Mage::getBaseUrl('media') . 'catalog/product', '', $pathImage);
+                $product->setImage($realImage)
+                    ->setSmallImage($realImage)
+                    ->setThumbnail($realImage);
+                $product->save();
+            } catch (Exception $e) {
+            }
+
+        }
+
+
+
+    }
+
+
+
+    public function reindexAction(){
+
+        try {
+
+            $processes = $this->_parseIndexerString('all');
+
+            Mage::dispatchEvent('shell_reindex_init_process');
+
+            foreach ($processes as $process) {
+
+                /* @var $process Mage_Index_Model_Process */
+
+                try {
+
+                    $startTime = microtime(true);
+
+                    $process->reindexEverything();
+
+                    $resultTime = microtime(true) - $startTime;
+
+                    Mage::dispatchEvent($process->getIndexerCode() . '_shell_reindex_after');
+
+                    echo $process->getIndexer()->getName()
+
+                        . " index was rebuilt successfully in " . gmdate('H:i:s', $resultTime) . "\n";
+
+                } catch (Mage_Core_Exception $e) {
+
+                    echo $e->getMessage() . "\n";
+
+                } catch (Exception $e) {
+
+                    echo $process->getIndexer()->getName() . " index process unknown error:\n";
+
+                    echo $e . "\n";
+
+                }
+
+            }
+
+            Mage::dispatchEvent('shell_reindex_finalize_process');
+
+        } catch (Exception $e) {
+
+            Mage::dispatchEvent('shell_reindex_finalize_process');
+
+            echo $e->getMessage() . "\n";
+
+        }
+
+    }
+
+
+
+    protected function _parseIndexerString($string)
+
+    {
+
+        $processes = array();
+
+        if ($string == 'all') {
+
+            $collection = $this->_getIndexer()->getProcessesCollection();
+
+            foreach ($collection as $process) {
+
+                if ($process->getIndexer()->isVisible() === false) {
+
+                    continue;
+
+                }
+
+                $processes[] = $process;
+
+            }
+
+        } else if (!empty($string)) {
+
+            $codes = explode(',', $string);
+
+            $codes = array_map('trim', $codes);
+
+            $processes = $this->_getIndexer()->getProcessesCollectionByCodes($codes);
+
+            foreach($processes as $key => $process) {
+
+                if ($process->getIndexer()->getVisibility() === false) {
+
+                    unset($processes[$key]);
+
+                }
+
+            }
+
+            if ($this->_getIndexer()->hasErrors()) {
+
+                echo implode(PHP_EOL, $this->_getIndexer()->getErrors()), PHP_EOL;
+
+            }
+
+        }
+
+        return $processes;
+
+    }
+
+    protected function _getIndexer()
+
+    {
+
+        $factory = new Mage_Core_Model_Factory();
+
+        return $factory->getSingleton($factory->getIndexClassAlias());
+
+    }
+
+    protected function getSelectFields($position){
+
+        $result = '<select name="mapFields['.$position.']">';
+
+        $result.= '<option value="">- Select one Attribute __</option>';
+
+        $result.= '<option value="entity_id">&nbsp;&nbsp;&nbsp;- Product Id</option>';
+
+        $result.= '<option value="sku">&nbsp;&nbsp;&nbsp;- Sku</option>';
+
+        $result.= '<option value="name">&nbsp;&nbsp;&nbsp;- Name</option>';
+
+        $result.= '<option value="description">&nbsp;&nbsp;&nbsp;- Description</option>';
+
+        $result.= '<option value="status">&nbsp;&nbsp;&nbsp;- Status</option>';
+
+        $result.= '<option value="image">&nbsp;&nbsp;&nbsp;- Image</option>';
+
+        $result.= '<option value="stock_status">&nbsp;&nbsp;&nbsp;- Stock status</option>';
+
+        $result.= '<option value="meta_title">&nbsp;&nbsp;&nbsp;- Meta title</option>';
+
+        $result.= '<option value="meta_description">&nbsp;&nbsp;&nbsp;- Meta Description</option>';
+
+        $result.= '<option value="meta_keyword">&nbsp;&nbsp;&nbsp;- Meta Keyword</option>';
+
+        $result.= '<option value="trophy_size">&nbsp;&nbsp;&nbsp;- Trophy Size</option>';
+
+        $result.= '<option value="printing_type">&nbsp;&nbsp;&nbsp;- Printing Type</option>';
+
+        $result.= '<option value="category">&nbsp;&nbsp;&nbsp;- Category</option>';
+
+        $result.= '<option value="price">&nbsp;&nbsp;&nbsp;- Price</option>';
+
+        $result.= '<option value="tax">&nbsp;&nbsp;&nbsp;- Product Tax</option>';
+
+        $result.= '</select>';
+
+        return $result;
+
+    }
+
+    protected function getProductBySku($row,$mapFields){
+
+        foreach($mapFields as $k=>$v){
+
+            if($v=='sku'){
+
+                $id = Mage::getModel('catalog/product')->getIdBySku($row[$k]);
+
+                if($id){
+
+                    return Mage::getModel('catalog/product')->setData('entity_id', $id);
+
+                }
+
+                break;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+    public function updatePrice($id,$price,$tierPrice){
+        $product = Mage::getModel('catalog/product')->load($id);
+        $product->setPrice($price)
+            ->setTierPrice($tierPrice);
+        $product->save();
+    }
+
+}

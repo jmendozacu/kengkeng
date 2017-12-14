@@ -1,0 +1,79 @@
+<?php
+$data = $this->getProductByCategory();
+//$products = $this->getProduct()->addAttributeToSelect(['name', 'price']);
+$helperCart = $this->helper('checkout/cart');
+$productInCarts = $this->getProductInCart();
+$categorys = $this->getCategorys();
+$cart = $this->getCart();
+?>
+    <div class="col-md-12 category-main-title"><span><b><?php echo $data['category']->getName() ?></b></span></div>
+<?php if ($data['category']->getThumbnail() != "") { ?>
+    <div class="col-md-12 category-image"><img
+            src="<?php echo Mage::getBaseUrl('media') . 'catalog/category/' . $data['category']->getThumbnail() ?>"/>
+    </div><?php } ?>
+<?php if ($data['category']->getDescription() != "") { ?>
+    <div class="col-md-12 category-sub-title"><span><?php echo $data['category']->getDescription() ?></span></div>
+<?php } ?>
+<?php if (count($data['products']) > 0) { ?>
+    <?php foreach ($data['products'] as $product) { ?>
+        <div class="col-md-12 col-xs 12 product-item">
+
+            <div class="col-md-8 col-xs-4 float-left"><span><?php echo $product->getName() ?></span></div>
+            <div class="col-md-4 col-xs-4 float-right">
+                <button class="btn btn-add-cart float-right <?php echo $product->getHasOptions()==1?"hasOptions":"add-cart"; ?> " type="button"
+                        <?php if($product->getHasOptions()==1) { ?>
+                            data-modal="modal-<?php echo $product->getSku() ?>"
+                        <?php }?>
+                        data-add-url="<?php echo $helperCart->getAddUrl($product) ?>"
+                        data-product-detail='{"sku":"<?php echo $product->getSku() ?>","name":"<?php echo $product->getName() ?>","price":"<?php echo $product->getPrice() ?>"}'
+                        data-product="<?php echo $product->getId() ?>"><?php echo number_format((float)$product->getPrice(), 2, '.', ''); ?>
+                    <i
+                            class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+                <?php if($product->getHasOptions()!=0) { ?>
+                    <?php $options=  $this->getOptionsProduct($product->getEntityId()) ?>
+                <div class="modal" id="modal-<?php echo $product->getSku() ?>" style="display: none">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3>Product</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <?php  foreach ($options as $index=> $option) { ?>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" data-child="collapse-<?php echo $index ?>" >
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <?php echo $option['title'] ?>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse-<?php echo $index ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <?php foreach ($option['option_value'] as $value) {?>
+                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                <div class="<?php echo $option['type']  ?>">
+                                                    <label>
+                                                        <input type="<?php echo $option['type']  ?>">
+                                                        <?php  echo $value['title']; ?>
+                                                        <div class="float-right"><?php echo $value['price']
+                                                            ?></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+
+<?php } ?>

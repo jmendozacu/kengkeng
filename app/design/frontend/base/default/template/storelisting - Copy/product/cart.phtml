@@ -1,0 +1,49 @@
+<?php
+$cart = $this->getCart();
+$productInCarts = $this->getProductInCart();
+$helperCart = $this->helper('checkout/cart');
+
+
+?>
+<div class="panel panel-primary panel-custom">
+    <div class="panel-heading">SHOPPING CART<img src="/media/storelisting/Loading_icon.gif" style="float: right;width:20px" class="hidden cart-loadding" alt=""></div>
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 100px;">Qty</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody id="detail-cart">
+            <?php foreach ($productInCarts as $productInCart) { ?>
+                <tr data-sku="<?php echo $productInCart->getSku() ?>" class="row-product">
+                    <?php $product = $this->getProduct($productInCart->getProductId()) ?>
+                    <td class='qty' scope="row">
+                        <div class='qty-add' data-product="<?php echo $productInCart->getProductId() ?>"
+                             data-add-url="<?php echo $helperCart->getAddUrl($product) ?>">
+                            <i class='fa fa-plus' aria-hidden='true'></i>
+                        </div>
+                        <span class="text-qty"><?php echo $productInCart->getQty() ?></span>
+                        <div class='qty-remove'
+                             data-delete-url="<?php echo $this->getRemoveUrl($productInCart->getProductId()); ?>"
+
+                        ><i class='fa fa-minus' aria-hidden='true'></i>
+                    </td>
+                    <td class='name'><?php echo $productInCart->getName() ?></td>
+                    <td class='total'><?php echo number_format((float)$productInCart->getRowTotal(), 2, '.', ''); ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="1">Toltal</td>
+                <td colspan="2"
+                    id="grand-total"><?php echo number_format((float)$cart->getGrandTotal(), 2, '.', ''); ?></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<?php echo $this->getChildHtml('checkout.onepage') ?>

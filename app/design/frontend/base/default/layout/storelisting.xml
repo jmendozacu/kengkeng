@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <remove name="top.menu"/>
+        <remove name="sale.reorder.sidebar"/>
+
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>css/CustomStyle.css</name><params/></action>
+
+            <action method="addCss">
+                <stylesheet>css/bootstrap.min.css</stylesheet>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/icheck/skins/square/yellow.css</stylesheet>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/bootstrap-responsive.min.css</stylesheet>
+            </action>
+
+            <block type="core/text" name="mapcontrol.script.block">
+
+                <action method="setText">
+                    <text>
+                        <![CDATA[<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all">]]></text>
+                </action>
+            </block>
+            <!--<action method="addCss">-->
+                <!--<stylesheet>css/font-awesome.min.css</stylesheet>-->
+            <!--</action>-->
+        </reference>
+        <reference name="before_body_end">
+
+            <block type="page/html_head" name="add_js_footer">
+                <action method="addJs">
+                    <script>storelocation/frontend/bootstrap.min.js</script>
+                </action>
+                <action method="addJs">
+                    <script>storelocation/frontend/custom.js</script>
+                </action>
+                <action method="addJs">
+                    <script>icheck/icheck.min.js</script>
+                </action>
+            </block>
+        </reference>
+
+        <reference name="before_body_end">
+
+        </reference>
+        <remove name="footer_links"/>
+        <remove name="newsletter"/>
+    </default>
+
+    <storelisting_index_index>
+        <reference name="head">
+            <action method="addJs">
+                <script>storelocation/frontend/maps.js</script>
+            </action>
+
+        </reference>
+
+        <reference name="header">
+            <block type="page/header" name="header">
+                <action method="setTemplate"><template>page/html/headerCustom.phtml</template></action>
+            </block>
+        </reference>
+        <reference name="before_body_end">
+            <block type="core/text" name="mapcontrol.script.block">
+                <action method="setText">
+                    <text>
+                        <![CDATA[<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtKemHCQsf7tLq4vt6p7w040Tj658YEL8&libraries=places&callback=initMap" async defer></script>]]></text>
+                </action>
+            </block>
+            <block type="page/html_head" name="add_js_footer">
+                <action method="addJs">
+                    <script>storelocation/frontend/index.js</script>
+                </action>
+            </block>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1columnCustom.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="storelisting/index" name="storelisting_index" template="storelisting/index.phtml"/>
+        </reference>
+    </storelisting_index_index>
+
+    <storelisting_index_list>
+        <reference name="head">
+            <action method="addJs"><script>storelocation/frontend/jquery-1.12.4.js</script></action>
+        </reference>
+        <reference name="header">
+            <block type="page/header" name="header">
+                <action method="setTemplate"><template>page/html/headerCustom.phtml</template></action>
+            </block>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-rightCustom.phtml</template>
+            </action>
+        </reference>
+        <reference name="content"  >
+            <block type="storelisting/list" name="storelisting_index_list" template="storelisting/list.phtml">
+                <block type="storelisting/list" name="storelisting_index_list_store"  as="storelisting.index.list.store" template="storelisting/list/store.phtml">
+                </block>
+            </block>
+        </reference>
+    </storelisting_index_list>
+
+    <storelisting_index_ajax>
+            <block type="storelisting/ajax" name="root" output="toHtml" template="storelisting/ajax.phtml" />
+    </storelisting_index_ajax>
+
+    <storelisting_index_product>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-rightCustom.phtml</template>
+            </action>
+            <reference name="breadcrumbs">
+                <action method="setTemplate"><template>page/html/breadcrumbs_category.phtml</template></action>
+            </reference>
+        </reference>
+        <reference name="header">
+            <block type="page/header" name="header">
+                <action method="setTemplate">
+                    <template>page/html/headerCustom.phtml</template>
+                </action>
+            </block>
+            <remove name="block_header_top_right"/>
+
+        </reference>
+
+        <reference name="content"  >
+            <block type="storelisting/product" name="storelisting_index_product" template="storelisting/product.phtml">
+                <block type="storelisting/product" name="storelisting.index.product.product" template="storelisting/product/list.phtml"/>
+            </block>
+        </reference>
+        <reference name="right">
+            <block type="storelisting/list"  template="storelisting/product/store.phtml"/>
+            <block type="storelisting/product_cart"  template="storelisting/product/cart.phtml"/>
+            <block type="checkout/onepage" name="checkout.onepage" as="checkout" template="checkout/onepage.phtml">
+                <block type="checkout/onepage_login" name="checkout.onepage.login" as="login" template="checkout/onepage/login.phtml">
+                    <block type="page/html_wrapper" name="checkout.onepage.login.before" as="login_before" translate="label">
+                        <label>Login/Registration Before</label>
+                        <action method="setMayBeInvisible"><value>1</value></action>
+                    </block>
+                </block>
+                <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml"/>
+                <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping" template="checkout/onepage/shipping.phtml"/>
+                <block type="checkout/onepage_shipping_method" name="checkout.onepage.shipping_method" as="shipping_method" template="checkout/onepage/shipping_method.phtml">
+                    <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="checkout/onepage/shipping_method/available.phtml"/>
+                    <block type="checkout/onepage_shipping_method_additional" name="checkout.onepage.shipping_method.additional" as="additional" template="checkout/onepage/shipping_method/additional.phtml"/>
+                </block>
+                <block type="checkout/onepage_payment" name="checkout.onepage.payment" as="payment" template="checkout/onepage/payment.phtml">
+                    <block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods" template="checkout/onepage/payment/info.phtml">
+                        <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                    </block>
+                </block>
+                <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="checkout/onepage/review.phtml"/>
+            </block>
+
+
+        </reference>
+
+    </storelisting_index_product>
+
+    <storelisting_cart_add>
+        <block type="storelisting/product_cart" name="root" output="toHtml" template="storelisting/product/cart.phtml"/>
+    </storelisting_cart_add>
+
+    <storelisting_index_productcategory>
+        <block type="storelisting/product" name="root" output="toHtml" template="storelisting/product/list.phtml"/>
+    </storelisting_index_productcategory>
+</layout>
+	

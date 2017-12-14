@@ -1,0 +1,99 @@
+<?php
+/**
+ * Project name promotional
+ * Created by:
+ * User: Hoang Van Cong
+ * Company: Theappnow.com
+ * Email: conghv@theappnow.com
+ * Date: 3/1/2017
+ * Time: 10:36 AM
+ */
+
+$read = Mage::getSingleton('core/resource')->getConnection('core_read');
+$sql = 'select * from core_store where website_id=1 and group_id=1';
+$stores = $read->fetchAll($sql);
+?>
+<div class="columns ">
+    <div id="page:left" class="side-col">
+        <h3>Export Products</h3>
+        <ul class="tabs" id="slide_tabs">
+            <li>
+                <a class="tab-item-link active" title="Item Information" name="form_section" id="slide_tabs_form_section" href="#">
+                    <span><span title="The information in this tab has been changed." class="changed"></span><span title="" class="error"></span>Item Information</span>
+                </a>
+
+            </li>
+        </ul>
+
+    </div>
+    <div id="content" class="main-col">
+        <div class="main-col-inner">
+            <div id="messages"></div>
+            <div class="content-header">
+                <h3 class="icon-head head-adminhtml-slide">Export Products</h3>
+            </div>
+            <?php if($file = Mage::registry('product_file')):?>
+                <div class="entry-edit">
+                    <div class="entry-edit-head">
+                        <h4 class="icon-head head-edit-form fieldset-legend">Data export</h4>
+                        <div class="form-buttons"></div>
+                    </div>
+                    <div class="fieldset">
+                        <div class="files-download">
+                            <a href="<?php echo $file?>">Link download products</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endif;?>
+            <div class="entry-edit">
+                <div class="entry-edit-head">
+                    <h4 class="icon-head head-edit-form fieldset-legend">Form export</h4>
+                    <div class="form-buttons"></div>
+                </div>
+                <form id="form-export-product" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl('trophydata/adminhtml_export/product')?>" >
+                    <input type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" name="form_key">
+                    <div id="giftvoucher_form" class="fieldset ">
+                        <div class="hor-scroll">
+                            <table cellspacing="0" class="form-list">
+                                <tbody>
+
+                                <tr>
+                                    <td class="label"><label for="store_id">Store view</label></td>
+                                    <td class="value">
+                                        <select class=" select" name="store_id" id="store_id">
+                                            <option selected="selected" value="0">Select one store view</option>
+                                            <?php foreach($stores as $store):?>
+                                                <option value="<?php echo $store['store_id'] ?>">&nbsp;&nbsp;&nbsp;__<?php echo $store['name']?></option>
+                                            <?php endforeach;?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"></td>
+                                    <td class="value">
+                                        <button onclick="onExport();" class="scalable save" type="button" title="Export" ><span><span><span>Export</span></span></span></button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+    function onExport(){
+        var store = document.getElementById('store_id').value;
+        if(store==0){
+            alert('Please select one store..');
+        }else{
+            document.getElementById('form-export-product').submit();
+        }
+    }
+</script>

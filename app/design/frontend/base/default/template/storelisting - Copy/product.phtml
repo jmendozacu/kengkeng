@@ -1,0 +1,413 @@
+<?php
+
+/**
+ * @var ABSoft_StoreListing_Block_Product $this
+ */
+$helperCart = $this->helper('checkout/cart');
+$productInCarts = $this->getProductInCart();
+$categorys = $this->getCategorys();
+$data = $this->getProductByCategory();
+
+?>
+
+        <div class="list-product">
+            <div class="col-md-12 col-xs-6 main-category">
+                <?php $i = 0;
+                foreach ($categorys as $index => $category) { ?>
+                    <div class="col-md-3 main-category_item category-item <?php echo $i == 0 ? 'active' : '' ?> "
+                         data-parent-id="<?php echo $category->getId() ?>"
+                         style="" data-category-id="<?php echo $category->getEntityId() ?>">
+                        <div class="category-lv1">
+                            <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+                            <span><?php echo $category->getName() ?></span>
+                        </div>
+                    </div>
+                    <?php $i++;
+                } ?>
+            </div>
+            <?php $i = 0;
+            foreach ($categorys as $index => $category) { ?>
+                <?php $subCategorys = $this->getSubcategorys($category->getId()) ?>
+                <?php if (count($subCategorys) == 0) {
+                    continue;
+                } ?>
+
+                <div class="col-md-12 col-xs-6 sub-category parent-id-<?php echo $category->getId() ?> <?php echo $i == 0 ? 'item-show' : 'item-hidden' ?>">
+                    <?php foreach ($subCategorys as $subCategory) { ?>
+                        <div class="col-md-3 sub-category_item category-item"
+                             data-category-id="<?php echo $subCategory->getId() ?>">
+                            <div class="category-lv2">
+                                <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+                                <span><?php echo $subCategory->getName() ?></span>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+                <?php $i++;
+            } ?>
+            <div class="main-product clearfix">
+                <div class="product-list " id="product-list">
+                    <div class="col-md-12 category-main-title">
+                        <span><b><?php echo $data['category']->getName() ?></b></span></div>
+                    <?php if ($data['category']->getThumbnail() != "") { ?>
+                        <div class="col-md-12 category-image"><img
+                                src="<?php echo Mage::getBaseUrl('media') . 'catalog/category/' . $data['category']->getThumbnail() ?>"/>
+                        </div><?php } ?>
+                    <?php if ($data['category']->getDescription() != "") { ?>
+                        <div class="col-md-12 category-sub-title">
+                            <span><?php echo $data['category']->getDescription() ?></span></div>
+                    <?php } ?>
+                    <?php if (count($data['products']) > 0) { ?>
+                        <?php foreach ($data['products'] as $product) { ?>
+                            <form action="<?php echo $helperCart->getAddUrl($product) ?>">
+                            <div class="col-md-12 col-xs 12 product-item">
+                                <div class="col-md-8 col-xs-4 float-left"><span><?php echo $product->getName() ?></span>
+                                </div>
+                                <div class="col-md-4 col-xs-4 float-right">
+                                    <button class="btn btn-add-cart float-right <?php echo $product->getHasOptions()==1?"hasOptions":"add-cart"; ?> "
+                                            type="button"
+                                            data-add-url="<?php echo $helperCart->getAddUrl($product) ?>"
+                                            data-delete-url="<?php echo $this->getRemoveUrl($product->getId()); ?>"
+                                            data-product-detail='{"sku":"<?php echo $product->getSku() ?>","name":"<?php echo $product->getName() ?>","price":"<?php echo $product->getPrice() ?>"}'
+                                            data-product="<?php echo $product->getId() ?>"><?php echo number_format((float)$product->getPrice(), 2, '.', ''); ?>
+                                        <i
+                                                class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        <?php } ?>
+
+                    <?php } ?>
+                </div>
+
+                <div class="loadding-img1" style="display: none;">
+                    <img src="/media/storelisting/Loading_icon.gif" alt="">
+                </div>
+            </div>
+        </div>
+
+<div class="modal" id="modal" style="display:none">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Product</h3>
+    </div>
+    <div class="modal-body">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" data-child="collapse-1" >
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Collapsible Group Item #1
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Check me out
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Check me out
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Check me out
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Check me out
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" data-child="collapse-2" >
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Collapsible Group Item #2
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="panel-body">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                    Option one is this
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                    Option one is this
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                    Option one is this
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                    Option one is this
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                    Option one is this
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+
+<div class="loadding-img" style="display: none;">
+    <img src="/media/storelisting/Loading_icon.gif" alt="">
+</div>
+<script>
+    (function ($) {
+        $(document).on('click','.hasOptions',function(){
+            var modal = $(this).attr('data-modal');
+            $('#'+modal).toggleClass('show');
+        })
+        $(document).on('click','.panel-heading',function(){
+            var child= $(this).attr('data-child');
+            console.log(child);
+            $('#'+child).toggleClass('in');
+
+        });
+        $(document).on('click', '.main-category_item', function () {
+            $('.main-category_item').removeClass('active');
+            $(this).addClass('active');
+            var child = $(this).attr('data-parent-id');
+            $('.sub-category').addClass('item-hidden');
+            $('.sub-category').removeClass('item-show')
+
+            $('.parent-id-' + child).addClass('item-show')
+        });
+        $(document).on('click', '.sub-category_item', function () {
+            $('.sub-category_item').removeClass('active');
+            $(this).addClass('active')
+        });
+        $(document).on('click', '.category-item', function () {
+            $('.loadding-img1').show();
+            var category_id = $(this).attr('data-category-id');
+            $.ajax({
+                url: '/storelisting/index/productcategory',
+                method: "POST",
+                data: {category_id: category_id},
+                dataType: "JSON",
+                success: function (data) {
+                    $('#product-list').html('');
+                    $('#product-list').append(data.result);
+                    $('.loadding-img1').hide();
+
+
+                }
+            })
+        });
+
+        function getGrandTotal() {
+            var total = 0;
+            $('.total').each(function () {
+                total += parseFloat($(this).html());
+            })
+            $('#grand-total').html(total.toFixed(2));
+        }
+
+        $(document).on('click', '.add-cart', function () {
+
+            var data = JSON.parse($(this).attr('data-product-detail'));
+            var row = check(data['sku']);
+            var product = $(this).attr('data-product');
+
+            if (row.check === true) {
+                updateQty(row.element);
+            }
+            else {
+                var html = "" +
+                    "<tr data-sku=" + data['sku'] + " class='row-product'>" +
+                    "<td class='qty'>" +
+                    "<div class='qty-add ' data-product='" + product + "' data-add-url='" + $(this).attr('data-add-url') + "' > " +
+                    "<i  class='fa fa-plus' aria-hidden='true'></i>" +
+                    "</div>" +
+                    "<span class='text-qty'>1</span>" +
+                    "<div class='qty-remove' data-delete-url=''>" +
+                    "<i class='fa fa-minus' aria-hidden='true'></i>" +
+                    "</div>" +
+                    "</td>" +
+                    "<td class='name'>" + data['name'] + "</td>" +
+                    "<td class='total'>" + parseFloat(data['price']).toFixed(2) + "</td>" +
+                    "</tr>" +
+                    "";
+                $("#detail-cart").append(html);
+                getGrandTotal()
+            }
+
+            function check(id) {
+                var check = {};
+                if (rows.length > 0) {
+                    rows.each(function (index) {
+                        var productId = $(this).attr('data-sku');
+                        if (id === productId) {
+                            check.check = true;
+                            check.element = this;
+                        }
+                    });
+                } else {
+                    check.check = false;
+                }
+
+                return check;
+            }
+
+            function updateQty(element) {
+                var elementQty = $(element).find('span.text-qty');
+                elementQty.html(parseInt(elementQty.html()) + 1);
+                var elementTotal = $(element).find('td.total');
+                elementTotal.html(
+                    (parseFloat(elementTotal.html()) + parseFloat(data['price'])).toFixed(2)
+                );
+                getGrandTotal()
+            }
+
+
+            var url = $(this).attr('data-add-url');
+            url = url.replace("checkout/cart", "storelisting/cart");
+            var qty = 1;
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: {qty: qty, product: product},
+                dataType: "JSON",
+                success: function (res) {
+                    var element = $('tr[data-sku="' + data["sku"] + '"]').find('div.qty-remove');
+                    element.attr('data-delete-url', res);
+                }
+            })
+            rows = $('.row-product');
+            if(rows.length>0){
+                $('.btn-setMethod').removeClass('hidden');
+            }
+        })
+        $(document).on('click', '.qty-remove', function () {
+
+            var sku = $(this).parent().parent().attr('data-sku');
+            var elementQty = $(this).prev();
+            var price = parseFloat($(this).parent().parent().find('td.total').html()) / parseInt($(this).parent().parent().find('span.text-qty').html())
+            var total = parseFloat($(this).parent().parent().find('td.total').html()) - price;
+            $(this).parent().parent().find('td.total').html(total.toFixed(2));
+            if (parseInt(elementQty.html()) > 1) {
+                var qty = parseInt(elementQty.html()) - 1;
+                elementQty.html(qty);
+                getGrandTotal();
+
+                $.ajax({
+                    url: "/storelisting/cart/updateQtyItem",
+                    method: "POST",
+                    data: {sku: sku, qty: qty},
+                    success: function (data) {
+
+                    }
+                })
+            } else {
+                var urlDetele = $(this).attr('data-delete-url');
+                urlDetele = urlDetele.replace("checkout/cart", "storelisting/cart");
+
+                $(this).parent().parent().remove();
+                getGrandTotal();
+
+                $.ajax({
+                    url: urlDetele,
+                    method: "POST",
+                    success: function (data) {
+
+                    }
+                })
+            }
+            rows = $('.row-product');
+            if(rows.length<=0){
+                $('.btn-setMethod').addClass('hidden');
+            }
+        })
+        $(document).on('click', '.qty-add', function () {
+            var url = $(this).attr('data-add-url');
+
+            url = url.replace("checkout/cart", "storelisting/cart");
+            var product = $(this).attr('data-product');
+            var qty = 1;
+            updateQty($(this).parent().parent());
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: {qty: qty, product: product},
+                dataType: "JSON",
+                success: function (data) {
+                }
+            })
+
+
+            function updateQty(element) {
+
+
+                var elementQty = $(element).find('span.text-qty');
+                var elementTotal = $(element).find('td.total');
+
+                var price = parseFloat(elementTotal.html()) / parseFloat(elementQty.html());
+                elementQty.html(parseInt(elementQty.html()) + 1);
+
+                elementTotal.html(
+                    (parseFloat(elementTotal.html()) + parseFloat(price)).toFixed(2)
+                );
+                getGrandTotal()
+            }
+
+        })
+        $(document).ajaxStart(function() {
+//            alert("xong");
+            $('.cart-loadding').removeClass('hidden')
+        });
+        $(document).ajaxStop(function() {
+            $('.cart-loadding').addClass('hidden')
+        });
+        $(document).on('ready',function(){
+            rows = $('.row-product');
+            if(rows.length>0){
+                $('.btn-setMethod').removeClass('hidden');
+            }
+        })
+    })(jQuery)
+</script>

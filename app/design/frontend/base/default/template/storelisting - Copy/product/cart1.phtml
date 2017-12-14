@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @var ABSoft_StoreListing_Block_Product $this
+ */
+$products = $this->getProduct();
+$helperCart = $this->helper('checkout/cart');
+$productInCarts = $this->getProductInCart();
+$cart = $this->getCart();
+?>
+
+<?php foreach ($productInCarts as $productInCart) { ?>
+    <tr>
+        <th scope="row"><?php echo $productInCart->getQty() ?></th>
+        <td><?php echo $productInCart->getName() ?></td>
+        <td><?php echo (float)$productInCart->getRowTotal() ?></td>
+    </tr>
+<?php } ?>

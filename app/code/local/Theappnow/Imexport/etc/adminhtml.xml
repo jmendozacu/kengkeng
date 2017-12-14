@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <theappnow translate="title">
+            <title>Theappnow</title>
+            <sort_order>70</sort_order>
+            <children>
+                <import module="imexport" translate="title">
+                    <title>Import</title>
+                    <sort_order>0</sort_order>
+                    <action>imexportadmin/adminhtml_import</action>
+                </import>
+
+                <export module="imexport" translate="title">
+                    <title>Export</title>
+                    <sort_order>0</sort_order>
+                    <action>imexportadmin/adminhtml_export</action>
+                </export>
+
+            </children>
+        </theappnow>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <import module="imexport" translate="title">
+                                        <title>Import</title>
+                                        <sort_order>1</sort_order>
+                                    </import>
+                                    <export module="imexport" translate="title">
+                                        <title>export</title>
+                                        <sort_order>1</sort_order>
+                                    </export>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <imexport module="imexport" translate="title">
+                        <title>Imexport</title>
+                        <sort_order>1</sort_order>
+                        <children>
+                            <price module="baseprice" translate="title">
+                                <title>Manage price</title>
+                                <sort_order>0</sort_order>
+                                <action>baseprice/adminhtml_price</action>
+                            </price>
+                            <tierprice module="baseprice" translate="title">
+                                <title>Manage tierprice</title>
+                                <sort_order>0</sort_order>
+                                <action>baseprice/adminhtml_tierprice</action>
+                            </tierprice>
+                        </children>
+                    </imexport>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

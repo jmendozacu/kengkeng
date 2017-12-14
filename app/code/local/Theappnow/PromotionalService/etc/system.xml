@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+        <theappnow translate="label" module="promotionalservice">
+            <label>Theappnow Extensions</label>
+            <sort_order>10</sort_order>
+        </theappnow>
+    </tabs>
+	<sections>
+		<promotionalservice translate="label" module="promotionalservice">                    
+			<label>Custom Service</label>
+			<tab>theappnow</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>0</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>            
+			<groups>
+			    <general translate="label"> 
+					<label>General</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>0</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+					  <repeatwork_text translate="label">
+						<label>Repeat work compare text</label>
+						<frontend_type>text</frontend_type>
+						<sort_order>0</sort_order>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>1</show_in_store>
+						<comment>Set repeat work text value using to compare and excluding product cost in cart</comment>
+					  </repeatwork_text>
+					  
+				   </fields>
+			   </general>
+			   
+			</groups>
+		</promotionalservice>
+	</sections>
+</config>

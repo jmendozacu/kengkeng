@@ -1,0 +1,14 @@
+<div class="store-list">
+	<h3>STORES LIST</h3>
+	<?php
+	foreach (Mage::app()->getWebsites() as $website) {
+	    foreach ($website->getGroups() as $group) {
+	        $stores = $group->getStores();
+	        foreach ($stores as $store) {
+	            echo $store->name;
+	            // var_dump($store);die;
+	        }
+	    }
+	}
+	?>
+</div>

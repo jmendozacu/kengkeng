@@ -1,0 +1,47 @@
+
+
+<?php
+// lấy thông tin để hiển thị
+$reviews = $this->getReviews()
+?>
+<div class="row infomation-store">
+    <div class="col-md-12 text-center name-store">
+        <h3><?php echo $reviews['infomation_store']['name_store'] ?></h3>
+    </div>
+    <div class="col-md-12 text-center rating-percent-store">
+        <div class="rating-box inline-label">
+            <div class="rating" style="width: <?php echo $reviews['infomation_store']['percent'] ?>%" ></div>
+        </div>
+    </div>
+    <div class="col-md-12 text-center rating-store ">
+        <ul >
+            <?php foreach ($reviews['infomation_store']['rating'] as $key => $value) {?>
+                <li>
+                    <span class="col-md-6 col-rating"><?php echo $key.":".$value/20 ?></span>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
+</div>
+<ul class="list-review">
+    <?php foreach ($reviews['infomation_review'] as $review) {?>
+        <li class="list-review-item">
+            <div class="row row-review">
+                <div class="col-md-12">
+                    <div class="col-title">
+                        <div class="col-title_left">
+                            <div class="col-title_nick-name"><b><?php echo $review['nickname'] ?></b></div>
+                            <div class="col-title_time"><?php echo $review['created_at'] ?></div>
+                        </div>
+                        <div class="col-title_right">
+                            <div class="rating-box">
+                                <div class="rating" style="width:<?php echo $review['percent'] ?>%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-content"><?php echo $review['detail'] ?></div>
+                </div>
+            </div>
+        </li>
+    <?php } ?>
+</ul>

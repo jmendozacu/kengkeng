@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <theappnow translate="title">
+            <title>Theappnow</title>
+            <sort_order>70</sort_order>
+            <children>
+                <price module="baseprice" translate="title">
+                    <title>Baseprice</title>
+                    <sort_order>0</sort_order>
+                    <action>basepriceadmin/adminhtml_price</action>
+                </price>
+
+                <tierprice module="baseprice" translate="title">
+                    <title>Tierprice</title>
+                    <sort_order>1</sort_order>
+                    <action>basepriceadmin/adminhtml_tierprice</action>
+                </tierprice>
+
+                <import module="baseprice" translate="title">
+                    <title>Import</title>
+                    <sort_order>2</sort_order>
+                    <action>basepriceadmin/adminhtml_import/product</action>
+                </import>
+
+                <export module="baseprice" translate="title">
+                    <title>Export</title>
+                    <sort_order>3</sort_order>
+                    <action>basepriceadmin/adminhtml_export/product</action>
+                </export>
+
+            </children>
+        </theappnow>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <baseprice module="baseprice" translate="title">
+                                        <title>Baseprice</title>
+                                        <sort_order>1</sort_order>
+                                    </baseprice>
+                                    <tierprice module="baseprice" translate="title">
+                                        <title>Tierprice</title>
+                                        <sort_order>1</sort_order>
+                                    </tierprice>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <baseprice module="baseprice" translate="title">
+                        <title>Baseprice</title>
+                        <sort_order>1</sort_order>
+                        <children>
+                            <price module="baseprice" translate="title">
+                                <title>Manage price</title>
+                                <sort_order>0</sort_order>
+                                <action>basepriceadmin/adminhtml_price</action>
+                            </price>
+                            <tierprice module="baseprice" translate="title">
+                                <title>Manage tierprice</title>
+                                <sort_order>0</sort_order>
+                                <action>basepriceadmin/adminhtml_tierprice</action>
+                            </tierprice>
+                        </children>
+                    </baseprice>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

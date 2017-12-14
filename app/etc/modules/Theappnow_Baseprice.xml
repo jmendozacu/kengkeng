@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Theappnow_Baseprice>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Theappnow_Baseprice>
+    </modules>
+</config>

@@ -1,0 +1,19 @@
+Index: app/design/frontend/base/default/layout/storelisting.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/design/frontend/base/default/layout/storelisting.xml	(revision )
++++ app/design/frontend/base/default/layout/storelisting.xml	(revision )
+@@ -99,5 +99,10 @@
+             <block type="storelisting/liststore" name="storelisting_index_listStore" template="storelisting/list_store.phtml"/>
+         </reference>
+     </storelisting_index_list>
++    <storelisting_index_ajax>
++        <reference name="head">
++            <action method="addJs"><script>storelocation/frontend/jquery-1.12.4.js</script></action>
++        </reference>
++    </storelisting_index_ajax>
+ </layout>   
+ 	
+\ No newline at end of file

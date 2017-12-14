@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Theappnow_Reviewscroller>
+            <version>1.0.0</version>
+        </Theappnow_Reviewscroller>
+    </modules>
+    <global>
+         <blocks>
+            <theappnow_reviewscroller>
+                <class>Theappnow_Reviewscroller_Block</class>
+            </theappnow_reviewscroller>
+        </blocks>
+    </global>
+    <frontend>
+       
+        <layout>
+            <updates>
+                <Theappnow_Reviewscroller>
+                    <file>theappnow_reviewscroller.xml</file>
+                </Theappnow_Reviewscroller>
+            </updates>
+        </layout>
+    </frontend>
+</config>

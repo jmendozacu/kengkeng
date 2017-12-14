@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+
+		<reference name="head">
+
+			<action method="addJs"><script>storelocation/adminhtml/maps.js</script></action>
+		</reference>
+		<reference name="before_body_end">
+			<block type="core/text" name="mapcontrol.script.block">
+				<action method="setText"><text><![CDATA[<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtKemHCQsf7tLq4vt6p7w040Tj658YEL8&libraries=places&callback=initMap" async defer></script>]]></text></action>
+			</block>
+		</reference>
+	</default>
+
+  <storelisting_adminhtml_storelocation_index>
+	<reference name="content">
+	  <block type="storelisting/adminhtml_storelocation" name="storelocation" />
+	</reference>
+  </storelisting_adminhtml_storelocation_index>
+</layout>

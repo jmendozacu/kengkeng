@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Theappnow_Imexport>
+            <version>0.0.1</version>
+        </Theappnow_Imexport>
+    </modules>
+    <admin>
+        <routers>
+            <imexport>
+                <use>admin</use>
+                <args>
+                    <module>Theappnow_Imexport</module>
+                    <frontName>imexportadmin</frontName>
+                </args>
+            </imexport>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <imexport>
+                    <file>theappnow_imexport.xml</file>
+                </imexport>
+            </updates>
+        </layout>
+        <events>
+            <model_config_data_save_before>
+                <observers>
+                    <theappnow_imexport_save_config>
+                        <type>singleton</type>
+                        <class>Theappnow_Baseprice_Model_Observer</class>
+                        <method>saveConfig</method>
+                    </theappnow_imexport_save_config>
+                </observers>
+            </model_config_data_save_before>
+        </events>
+    </adminhtml>
+    <global>
+
+        <blocks>
+            <imexport>
+                <class>Theappnow_Imexport_Block</class>
+            </imexport>
+        </blocks>
+        <helpers>
+            <imexport>
+                <class>Theappnow_Imexport_Helper</class>
+            </imexport>
+        </helpers>
+    </global>
+
+</config>
