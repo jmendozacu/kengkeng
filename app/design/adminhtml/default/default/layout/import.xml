@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <import_adminhtml_import_index>
+	  <reference name="head">
+		  <!--<action method="addItem"><type>js</type><name>js/jquery-1.10.2.min.js</name></action>-->
+		  <action method="addJs">
+			  <script>jquery/jquery-1.10.2.js</script>
+		  </action>
+	  </reference>
+	<reference name="content">
+	  <block type="import/adminhtml_import" name="import" template="import/import.phtml"/>
+	</reference>
+  </import_adminhtml_import_index>
+</layout>

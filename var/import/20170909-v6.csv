@@ -1,35 +1,33 @@
-sku;store;name;short_description;description;curl;status;price;qty;length;categories;featured;weight;image;small_image;thumbnail;media_gallery
-SKUL10001;lelux_en,lelux_fin;Ripsienpidennyshuolto (Ellipsi);;;;1;60,00;1000;0;[Lelux category]/Ripsienpidennys/Ellipsiripsienpidennys;0;;/SKUL10001.jpg;/SKUL10001.jpg;/SKUL10001.jpg;
-HOHO031;lelux_en,lelux_fin;Kulmien värjäys;Kulmien värjäys;Kulmien värjäys;;1;10,00;1000;0;[Lelux category]/Kestovärjäykset;0;;/HOHO031.jpg;/HOHO031.jpg;/HOHO031.jpg;
-HOHO035;lelux_en,lelux_fin;Kulmien ja ripsien värjäys + muotoilu;Kulmien ja ripsien värjäys + muotoilu;Kulmien ja ripsien värjäys + muotoilu;;1;25,00;1000;0;[Lelux category]/Kestovärjäykset;0;;;;;
-SKUL10004;lelux_en,lelux_fin;Klassinen- + Volyymiripsienpidennys koulutuspaketti;;<p>Sovitaan erikseen kouluttajan kanssa.</p>;;1;900,00;1000;0;[Lelux category]/Koulutukset;0;;/SKUL10004.jpg;"/SKUL10004.jpg
-";"/SKUL10004.jpg
-";
-SKUL10005;lelux_en,lelux_fin;Volyymiripsienpidennys (3 päivää);;<p>Seuraava kurssi 29-30.4.2017 ja 1.5.2017</p>;;1;650,00;1000;0;[Lelux category]/Koulutukset;0;;/SKUL10005.jpg;/SKUL10005.jpg;/SKUL10005.jpg;
-HOHO034;lelux_en,lelux_fin;Kulmien värjäys ja muotoilu;Kulmien värjäys ja muotoilu;Kulmien värjäys ja muotoilu;;1;15,00;1000;0;[Lelux category]/Kestovärjäykset;0;;;;;
-SKUL10007;lelux_en,lelux_fin;Ellipsiripset;Ultra kevyet ellipsiripset ovat tulleet Hohoemiin. Nyt saat näyttävät ripset, jotka tuntuvat kevyiltä ja mahtavilta. Kokeile, niin tiedät!;"<p><strong><span style=""font-size: 16px;"">Tulossa oleva UUTUUS !</span></strong></p><p><strong><span style=""font-size: 16px;""><br></span></strong></p><p><strong><span style=""font-size: 16px;""><br></span></strong></p><p><strong><span style=""background-colo";;1;99,00;1000;0;[Lelux category]/Ripsienpidennys/Ellipsiripsienpidennys;0;;/SKUL10007.jpg;/SKUL10007.jpg;/SKUL10007.jpg;"/SKUL10007_1.jpg;/SKUL10007_2.jpg;/SKUL10007_3.jpg;/SKUL10007_4.jpg;/SKUL10007_5.jpg;/SKUL10007_6.jpg;/SKUL10007_7.jpg;/SKUL10007_8.jpg;/SKUL10007_9.jpg;"
-HOHO022;lelux_en,lelux_fin;Luksus manikyyri;Luksus manikyyri;Luksus manikyyri;;1;35,00;1000;0;[Lelux category]/Käsihoito;0;;/HOHO022.jpg;/HOHO022.jpg;/HOHO022.jpg;
-DUM1;lelux_en,lelux_fin;Dumont pinsetit;Dumont pinsetit;;;1;65,00;1000;0;[Lelux category]/Koulutukset;0;;/DUM1.jpg;/DUM1.jpg;/DUM1.jpg;
-LAHJA20;lelux_en,lelux_fin;Lahjakortti 20€;;;;1;20,00;1000;0;[Lelux category]/Lahjakortit;0;;;;;
-HOHO032;lelux_en,lelux_fin;Ripsien värjäys;Ripsien värjäys;Ripsien värjäys;;1;10,00;1000;0;[Lelux category]/Kestovärjäykset;0;;/HOHO032.jpg;/HOHO032.jpg;/HOHO032.jpg;
-HOHO002;lelux_en,lelux_fin;Ranskalaiset rakennekynnet;Ranskalaiset rakennekynnet;"<p>Ranskalaiset rakennekynnet ovat upeat ja kestävät peruskynnet.&nbsp;</p><p><img alt="" src=""//cdn.finqu.com/users/6983/thumbnails/uploads/1_ranskalaiset-rakennekynnet_150_150.png"" height=""84"" width=""150""></p>";;1;85,00;1000;0;[Lelux category]/Rakennekynnet/Ranskalaiset rakennekynnet;0;;/HOHO002.jpg;/HOHO002.jpg;/HOHO002.jpg;
-SKUL10013;lelux_en,lelux_fin;Rakennekynsihuolto (ranskalaiset);;;;1;65,00;1000;0;[Lelux category]/Rakennekynnet/Ranskalaiset rakennekynnet;1;;/SKUL10013.jpg;/SKUL10013.jpg;/SKUL10013.jpg;
-SKUL10014;lelux_en,lelux_fin;Volyymiripsienpidennys koulutus (ammattilaisille 2 päivä);;"<p>Volyymiripsi koulutus 2 päivää (hintaan sisältyy 24%ALV ja perus opetusmateriaalit).&nbsp;</p><p>Koulutuspäivinä saat kaikista tuoteostoksista -10% alennuksen.</p>";;1;350,00;1000;0;[Lelux category]/Koulutukset;1;;/SKUL10014.jpg;/SKUL10014.jpg;/SKUL10014.jpg;
-HOHO001;lelux_en,lelux_fin;Uudet tavalliset rakennekynnet;Uudet tavalliset rakennekynnet;"<p><span style=""font-size: 16px;"">Meiltä saat upeat perinteiset rakennekynnet jotka kestää. Värin voit valita itse tai autamme teitä valitsemaan teille sopivan värin ja myös koristelut. Tyytyväisyystakuu!<br></span></p>";;1;70,00;1000;0;[Lelux category]/Rakennekynnet/Tavalliset rakennekynnet;1;;;;;"/HOHO001_1.jpg;/HOHO001_2.jpg;/HOHO001_3.jpg;/HOHO001_4.jpg;"
-LAHJA40;lelux_en,lelux_fin;Lahjakortti 40€;;;;1;40,00;1000;0;[Lelux category]/Lahjakortit;1;;;;;
-HOHO005;lelux_en,lelux_fin;Kynnen korjaus (1);Kynnen korjaus;Yhden kynnen korjaus;;1;10,00;1000;0;[Lelux category]/Rakennekynnet/Muut;1;;/HOHO005.jpg;/HOHO005.jpg;/HOHO005.jpg;
-SKUL10018;lelux_en,lelux_fin;Ripsienpidennyshuolto (Volyymi);;;;1;65,00;1000;0;[Lelux category]/Ripsienpidennys/Volyymiripset;1;;;;;
-HOHOLPEDI;lelux_en,lelux_fin;Luksus pedikyyri;Luksus pedikyyri;Luksus pedikyyri;;1;49,00;1000;0;[Lelux category]/Pedikyyrit;1;;;;;
-LAHJA80;lelux_en,lelux_fin;Lahjakortti 80€;;;;1;80,00;1000;0;[Lelux category]/Lahjakortit;1;;;;;
-HOHO000;lelux_en,lelux_fin;Rakennekynsien poisto, sis. manikyyri;Rakennekynsien poisto;Rakennekynsien poisto;;1;35,00;1000;0;[Lelux category]/Rakennekynnet/Muut;1;;;;;
-SKUL10022;lelux_en,lelux_fin;Rakennekynsihuolto (Glitteri);;;;1;75,00;1000;0;[Lelux category]/Rakennekynnet/Glitteri rakennekynnet;1;;;;;
-HOHOGEL;lelux_en,lelux_fin;Kestävä geelilakkaus;Geelilakkauksella saat kauniit kynnet valintasi mukaisilla väreillä;<p>Geelilakkaus:</p>;;1;35,00;1000;0;[Lelux category]/Geelilakkaus;1;;/SKUL10023.jpg;/SKUL10023.jpg;/SKUL10023.jpg;"/SKUL10023_1.jpg;/SKUL10023_2.jpg;/SKUL10023_3.jpg;/SKUL10023_4.jpg;/SKUL10023_5.jpg;/SKUL10023_6.jpg;/SKUL10023_7.jpg;/SKUL10023_8.jpg;/SKUL10023_9.jpg;/SKUL10023_10.jpg"
-HOHO033;lelux_en,lelux_fin;Kulmien muotoilu;Kulmien muotoilu;Kulmien muotoilu;;1;10,00;1000;0;[Lelux category]/Kestovärjäykset;1;;;;;
-HOHO006;lelux_en,lelux_fin;Kynsilakkaus;Kynsilakkaus;Kynsilakkaus;;1;10,00;1000;0;[Lelux category]/Rakennekynnet/Muut;1;;/SKUL10025.jpg;/SKUL10025.jpg;/SKUL10025.jpg;
-HOHOPEDI;lelux_en,lelux_fin;Pedikyyri;Pedikyyri;Hemmotteleva hohoemin spa pedikyyri;;1;40,00;1000;0;[Lelux category]/Pedikyyrit;1;;;;;
-HOHO0112;lelux_en,lelux_fin;Hollywood volyymiripset;Hollywood volyymiripset;<p>Volyymiripset ovat astetta tuuheammat ripset, jotka tehdään käyttämällä erityistä viuhkottamistekniikkaa. Normaalisti yhteen ripseen kiinnitetään yksi ripsen pidennyt, mutta tässä tekniikassa yhteen luonnonripseen voidaan laittaa useampia pidennyksiä. ;;1;129,00;1000;0;[Lelux category]/Ripsienpidennys/Volyymiripset;1;;/SKUL10027.jpg;/SKUL10027.jpg;/SKUL10027.jpg;"/SKUL10027_1.jpg;/SKUL10027_2.jpg;/SKUL10027_3.jpg;/SKUL10027_4.jpg;/SKUL10027_5.jpg;/SKUL10027_6.jpg;/SKUL10027_7.jpg;/SKUL10027_8.jpg;/SKUL10027_9.jpg;/SKUL10027_10.jpg;/SKUL10027_11.jpg;/SKUL10027_12.jpg;/SKUL10027_13.jpg;/SKUL10027_14.jpg;/SKUL10027_1"
-LAHJA60;lelux_en,lelux_fin;Lahjakortti 60€;;;;1;60,00;1000;0;[Lelux category]/Lahjakortit;1;;;;;
-SKUL10029;lelux_en,lelux_fin;Rakennekynsihuolto;Tavallisten rakennekynsien huolto;Tavallisten rakennekynsien huolto;;1;50,00;1000;0;[Lelux category]/Rakennekynnet/Tavalliset rakennekynnet;1;;;;;
-HOHO021;lelux_en,lelux_fin;Manikyyri;Manikyyri;<p>Manikyyri</p>;;1;20,00;1000;0;[Lelux category]/Käsihoito;1;;/SKUL10030.jpg;/SKUL10030.jpg;/SKUL10030.jpg;
-HOHO003;lelux_en,lelux_fin;Glitteri rakennekynnet;Glitteri rakennekynnet;<p>Glitteri rakennekynnet</p>;;1;90,00;1000;0;[Lelux category]/Rakennekynnet/Glitteri rakennekynnet;1;;/SKUL10031.jpg;/SKUL10031.jpg;/SKUL10031.jpg;"/SKUL10031_1.jpg;/SKUL10031_2.jpg;/SKUL10031_3.jpg;/SKUL10031_4.jpg;/SKUL10031_5.jpg;/SKUL10031_6.jpg;/SKUL10031_7.jpg;/SKUL10031_8.jpg;/SKUL10031_9.jpg;/SKUL10031_10.jpg;/SKUL10031_11.jpg;/SKUL10031_12.jpg;/SKUL10031_13.jpg;/SKUL10031_14.jpg;/SKUL10031_1"
-HOHO004;lelux_en,lelux_fin;Kynsien koristelu;Kynsien koristelut;Yhden kynnen koristelu 2€;;1;0,70;1000;0;[Lelux category]/Rakennekynnet/Muut;1;;/SKUL10032.jpg;/SKUL10032.jpg;/SKUL10032.jpg;
+"sku";"store";"name";"short_description";"description";"curl";"status";"price";"qty";"length";"categories";"featured";"visibility"
+"2SKUL10001";"web2";"Ripsienpidennyshuolto (Ellipsi)";;;;1;"60,00";1000;0;"[web2]/category1";0;2
+"2HOHO021";"web2";"Kulmien värjäys";"Kulmien värjäys";"Kulmien värjäys";;1;"10,00";1000;0;"[web2]/category1";0;2
+"2HOHO025";"web2";"Kulmien ja ripsien värjäys + muotoilu";"Kulmien ja ripsien värjäys + muotoilu";"Kulmien ja ripsien värjäys + muotoilu";;1;"25,00";1000;0;"[web2]/category2";0;2
+"2SKUL10004";"web2";"Klassinen- + Volyymiripsienpidennys koulutuspaketti";;"<p>Sovitaan erikseen kouluttajan kanssa.</p>";;1;"900,00";1000;0;"[web2]/category2";0;2
+"2SKUL10005";"web2";"Volyymiripsienpidennys (2 päivää)";;"<p>Seuraava kurssi 29-20.4.2017 ja 1.5.2017</p>";;1;"650,00";1000;0;"[web2]/category2";0;2
+"2HOHO024";"web2";"Kulmien värjäys ja muotoilu";"Kulmien värjäys ja muotoilu";"Kulmien värjäys ja muotoilu";;1;"15,00";1000;0;"[web2]/category2";0;2
+"2SKUL10007";"web2";"Ellipsiripset";"Ultra kevyet ellipsiripset ovat tulleet Hohoemiin. Nyt saat näyttävät ripset, jotka tuntuvat kevyiltä ja mahtavilta. Kokeile, niin tiedät!";"<p><strong><span style=""font-size: 16px;"">Tulossa oleva UUTUUS !</span></strong></p><p><strong><span style=""font-size: 16px;""><br></span></strong></p><p><strong><span style=""font-size: 16px;""><br></span></strong></p><p><strong><span style=""background-colo";;1;"99,00";1000;0;"[web2]/category2";0;2
+"2HOHO022";"web2";"Luksus manikyyri";"Luksus manikyyri";"Luksus manikyyri";;1;"25,00";1000;0;"[web2]/category2";0;2
+"2DUM1";"web2";"Dumont pinsetit";"Dumont pinsetit";;;1;"65,00";1000;0;"[web2]/category5";0;2
+"2LAHJA20";"web2";"Lahjakortti 20€";;;;1;"20,00";1000;0;"[web2]/category5";0;2
+"2HOHO022";"web2";"Ripsien värjäys";"Ripsien värjäys";"Ripsien värjäys";;1;"10,00";1000;0;"[web2]/category5";0;2
+"2HOHO002";"web2";"Ranskalaiset rakennekynnet";"Ranskalaiset rakennekynnet";"<p>Ranskalaiset rakennekynnet ovat upeat ja kestävät peruskynnet.&nbsp;</p><p><img alt="" src=""//cdn.finqu.com/users/6982/thumbnails/uploads/1_ranskalaiset-rakennekynnet_150_150.png"" height=""84"" width=""150""></p>";;1;"85,00";1000;0;"[web2]/category5";0;2
+"2SKUL10012";"web2";"Rakennekynsihuolto (ranskalaiset)";;;;1;"65,00";1000;0;"[web2]/category5";1;2
+"2SKUL10014";"web2";"Volyymiripsienpidennys koulutus (ammattilaisille 2 päivä)";;"<p>Volyymiripsi koulutus 2 päivää (hintaan sisältyy 24%ALV ja perus opetusmateriaalit).&nbsp;</p><p>Koulutuspäivinä saat kaikista tuoteostoksista -10% alennuksen.</p>";;1;"250,00";1000;0;"[web2]/category5";1;2
+"2HOHO001";"web2";"Uudet tavalliset rakennekynnet";"Uudet tavalliset rakennekynnet";"<p><span style=""font-size: 16px;"">Meiltä saat upeat perinteiset rakennekynnet jotka kestää. Värin voit valita itse tai autamme teitä valitsemaan teille sopivan värin ja myös koristelut. Tyytyväisyystakuu!<br></span></p>";;1;"70,00";1000;0;"[web2]/category5";1;2
+"2LAHJA40";"web2";"Lahjakortti 40€";;;;1;"40,00";1000;0;"[web2]/category16";1;2
+"2HOHO005";"web2";"Kynnen korjaus (1)";"Kynnen korjaus";"Yhden kynnen korjaus";;1;"10,00";1000;0;"[web2]/category16";1;2
+"2SKUL10018";"web2";"Ripsienpidennyshuolto (Volyymi)";;;;1;"65,00";1000;0;"[web2]/category16";1;2
+"2HOHOLPEDI";"web2";"Luksus pedikyyri";"Luksus pedikyyri";"Luksus pedikyyri";;1;"49,00";1000;0;"[web2]/category16";1;2
+"2LAHJA80";"web2";"Lahjakortti 80€";;;;1;"80,00";1000;0;"[web2]/category16";1;2
+"2HOHO000";"web2";"Rakennekynsien poisto, sis. manikyyri";"Rakennekynsien poisto";"Rakennekynsien poisto";;1;"25,00";1000;0;"[web2]/category16";1;2
+"2SKUL10022";"web2";"Rakennekynsihuolto (Glitteri)";;;;1;"75,00";1000;0;"[web2]/category16";1;2
+"2HOHOGEL";"web2";"Kestävä geelilakkaus";"Geelilakkauksella saat kauniit kynnet valintasi mukaisilla väreillä";"<p>Geelilakkaus:</p>";;1;"25,00";1000;0;"[web2]/category16";1;2
+"2HOHO022";"web2";"Kulmien muotoilu";"Kulmien muotoilu";"Kulmien muotoilu";;1;"10,00";1000;0;"[web2]/category16";1;2
+"2HOHO006";"web2";"Kynsilakkaus";"Kynsilakkaus";"Kynsilakkaus";;1;"10,00";1000;0;"[web2]/category16";1;2
+"2HOHOPEDI";"web2";"Pedikyyri";"Pedikyyri";"Hemmotteleva hohoemin spa pedikyyri";;1;"40,00";1000;0;"[web2]/category1";1;2
+"2HOHO0112";"web2";"Hollywood volyymiripset";"Hollywood volyymiripset";"<p>Volyymiripset ovat astetta tuuheammat ripset, jotka tehdään käyttämällä erityistä viuhkottamistekniikkaa. Normaalisti yhteen ripseen kiinnitetään yksi ripsen pidennyt, mutta tässä tekniikassa yhteen luonnonripseen voidaan laittaa useampia pidennyksiä. ";;1;"129,00";1000;0;"[web2]/category1";1;2
+"2LAHJA60";"web2";"Lahjakortti 60€";;;;1;"60,00";1000;0;"[web2]/category1";1;2
+"2SKUL10029";"web2";"Rakennekynsihuolto";"Tavallisten rakennekynsien huolto";"Tavallisten rakennekynsien huolto";;1;"50,00";1000;0;"[web2]/category1";1;2
+"2HOHO021";"web2";"Manikyyri";"Manikyyri";"<p>Manikyyri</p>";;1;"20,00";1000;0;"[web2]/category1";1;2
+"2HOHO002";"web2";"Glitteri rakennekynnet";"Glitteri rakennekynnet";"<p>Glitteri rakennekynnet</p>";;1;"90,00";1000;0;"[web2]/category1";1;2
+"2HOHO004";"web2";"Kynsien koristelu 122";"Kynsien koristelut";"Yhden kynnen koristelu 2€";;1;"0,70";1000;0;"[web2]/category1";1;2

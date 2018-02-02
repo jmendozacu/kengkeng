@@ -60,6 +60,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
      */
     protected function _retrieveCollection()
     {
+
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('catalog/product_collection');
         $store = $this->_getStore();

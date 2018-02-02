@@ -14,7 +14,17 @@
 <!--        </div>-->
 <!--    </div>-->
 <!--</div>-->
+<div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <select name="name" id="sort" class="form-control">
+            <option value="">Distance</option>
+            <option value="rating">Rating</option>
+            <option value="lowest">Lowest price</option>
+            <option value="highest">Highest price</option>
+        </select>
 
+    </div>
+</div>
 <div id="list-store">
 <?php echo $this->getChildHtml('storelisting.index.list.store') ?>
 </div>
@@ -32,3 +42,23 @@
 <div class="loadding-img" style="display: none;">
     <img src="/media/storelisting/Loading_icon.gif" alt="">
 </div>
+
+
+<script>
+    (function($){
+        var url = window.location.href;
+        url = url.split('&sort=')[1];
+        console.log(url);
+        $('#sort').val(url);
+        $(document).on('ready',function(){
+
+            $('#sort').change(function(){
+
+                var url = window.location.href;
+                url = url.split('&sort')[0];
+                url = url+'&sort='+this.value;
+                location.href = url;
+            })
+        })
+    })(jQuery);
+</script>

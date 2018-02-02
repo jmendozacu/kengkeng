@@ -11,7 +11,9 @@ class Basetut_Salestaff_Block_Adminhtml_Staff_Grid extends Mage_Adminhtml_Block_
     }
     
     /**
-     * lay ra collection can hien thi len grid
+     * prepare collection for block to display
+     *
+     * @return Basetut_Salestaff_Block_Adminhtml_Salestaff_Grid
      */
     protected function _prepareCollection()
     {
@@ -21,7 +23,9 @@ class Basetut_Salestaff_Block_Adminhtml_Staff_Grid extends Mage_Adminhtml_Block_
     }
     
     /**
-     * hàm chuẩn bị trước khi in ra grid
+     * prepare columns for this grid
+     *
+     * @return Basetut_Salestaff_Block_Adminhtml_Salestaff_Grid
      */
     protected function _prepareColumns()
     {
@@ -36,16 +40,36 @@ class Basetut_Salestaff_Block_Adminhtml_Staff_Grid extends Mage_Adminhtml_Block_
             'header'    => Mage::helper('salestaff')->__('Name'),
             'align'     =>'left',
             'index'     => 'name',
-            'width'     => '80px',
-
         ));
+		
+		/*$this->addColumn('email', array(
+			'header'    => Mage::helper('salestaff')->__('Email'),
+			'align'     =>'left',
+			'index'     => 'email',
+			'renderer'	=>	'salestaff/adminhtml_staff_renderer_email'
+		));
+		$this->addColumn('facebook_url', array(
+			'header'    => Mage::helper('salestaff')->__('Facebook Url'),
+			'align'     =>'left',
+			'index'     => 'facebook_url',
+			'renderer'	=>	'salestaff/adminhtml_staff_renderer_link'
+		));*/
+		
+		/*$this->addColumn('avatar', array(
+			'header'    => Mage::helper('salestaff')->__('Avatar'),
+			'align'     =>'left',
+			'index'     => 'avatar',
+			'sortable'      => false,
+			'filter'      => false,
+			'renderer'	=>	'salestaff/adminhtml_staff_renderer_avatar'
+		));*/
 
-        $this->addColumn('birthday', array(
+        /*$this->addColumn('birthday', array(
             'header'    => Mage::helper('salestaff')->__('Birthday'),
             'width'     => '150px',
             'index'     => 'birthday',
 			'type'		=> 'date'
-        ));
+        ));*/
         
         $this->addColumn('sex', array(
             'header'    => Mage::helper('salestaff')->__('Sex'),
@@ -58,22 +82,37 @@ class Basetut_Salestaff_Block_Adminhtml_Staff_Grid extends Mage_Adminhtml_Block_
                 2 => 'Female',
             ),
         ));
-        $this->addColumn('items_qty', array(
-            'header' => Mage::helper('salestaff')->__('Items Qty'),
-            'align' =>'left',
-            'width' => '100px',
-            'index' => 'items_qty',
-            'type' => 'number'
+		
+		$this->addColumn('items_qty', array(
+            'header'    => Mage::helper('salestaff')->__('Items Qty'),
+            'align'     =>'left',
+            'width'     => '100px',
+            'index'     => 'items_qty',
+			'type'		=> 'number'
         ));
-        $currencyCode = Mage::app()->getStore()->getBaseCurrency()->getCode();
-        $this->addColumn('totals_sales', array(
-            'header' => Mage::helper('salestaff')->__('Totals Sales'),
-            'align' =>'right',
-            'width' => '100px',
-            'index' => 'totals_sales',
-            'type' => 'price',
-            'currency_code' => $currencyCode
+		$currencyCode = Mage::app()->getStore()->getBaseCurrency()->getCode();
+		$this->addColumn('totals_sales', array(
+            'header'    => Mage::helper('salestaff')->__('Totals Sales'),
+            'align'     =>'right',
+            'width'     => '100px',
+            'index'     => 'totals_sales',
+			'type'		=> 'price',
+			'currency_code'	=> $currencyCode
         ));
+		if (!Mage::app()->isSingleStoreMode()) {
+			$this->addColumn('store_id', array(
+				'header'    => Mage::helper('salestaff')->__('Store view'),
+				'align'     =>'left',
+				'index'     =>'store_id',
+				'type'      =>'store',
+				'width'     => '150px',
+				'store_all' =>true,
+				'store_view'=>true,
+				'sortable'      => false,
+				'filter_condition_callback'
+					=> array($this, '_filterStoreCondition'),
+		  ));
+		}
         $this->addColumn('status', array(
             'header'    => Mage::helper('salestaff')->__('Status'),
             'align'     => 'left',
@@ -85,56 +124,14 @@ class Basetut_Salestaff_Block_Adminhtml_Staff_Grid extends Mage_Adminhtml_Block_
                 2 => 'Disabled',
             ),
         ));
-        if (!Mage::app()->isSingleStoreMode()) {
-            $this->addColumn('store_id', array(
-                'header'    => Mage::helper('salestaff')->__('Store view'),
-                'align'     =>'left',
-                'index'     =>'store_id',
-                'type'      =>'store',
-                'width'     => '150px',
-                'store_all' =>true,
-                'store_view'=>true,
-                'sortable'      => false,
-                'filter_condition_callback'
-                => array($this, '_filterStoreCondition'),
-            ));
-        }
-        $this->addColumn('email', array(
-            'header'    => Mage::helper('salestaff')->__('Email'),
-            'align'     =>'left',
-            'index'     => 'email',
-            'renderer'  =>   'salestaff/adminhtml_staff_renderer_email'
-        ));
-//        $this->addColumn('avatar', array(
-//            'header'    => Mage::helper('salestaff')->__('Avatar'),
-//            'align'     =>'left',
-//            'index'     => 'avatar',
-//            'sortable'      => false,
-//            'filter'      => false,
-//            'renderer'  =>   'salestaff/adminhtml_staff_renderer_avatar'
-//        ));
+		
         $this->addExportType('*/*/exportCsv', Mage::helper('salestaff')->__('CSV'));
         $this->addExportType('*/*/exportXml', Mage::helper('salestaff')->__('XML'));
 
-
         return parent::_prepareColumns();
     }
-    
-    /**
-     * hàm trả lại url cho mỗi row trong grid
-     */
-    public function getRowUrl($row)
-    {
-        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
-    }
-    public function _filterStoreCondition($collection, $column){
-        if (!$value = $column->getFilter()->getValue()) {
-            return;
-        }
-
-        $this->getCollection()->addFieldToFilter('store_id', $value);
-    }
-    /**
+	
+	/**
      * prepare mass action for this grid
      *
      * @return Basetut_Salestaff_Block_Adminhtml_Staff_Grid
@@ -148,24 +145,42 @@ class Basetut_Salestaff_Block_Adminhtml_Staff_Grid extends Mage_Adminhtml_Block_
             'url' => $this->getUrl('*/*/massDelete'),
             'confirm' => Mage::helper('salestaff')->__('Are you sure?')
         ));
-        /*mass change status*/
-        $statuses = array(
-            1 => Mage::helper('salestaff')->__('Enabled'),
-            2 => Mage::helper('salestaff')->__('Disabled')
-        );
-        array_unshift($statuses, array('label' => '', 'value' => ''));
-        $this->getMassactionBlock()->addItem('status', array(
-            'label' => Mage::helper('salestaff')->__('Change status'),
-            'url' => $this->getUrl('*/*/massStatus', array('_current' => true)),
-            'additional' => array(
-                'visibility' => array(
-                    'name' => 'status',
-                    'type' => 'select',
-                    'class' => 'required-entry',
-                    'label' => Mage::helper('salestaff')->__('Status'),
-                    'values' => $statuses
-                ))
-        ));
+		/*mass change status*/
+		$statuses = array(
+			1    => Mage::helper('salestaff')->__('Enabled'),
+			2   => Mage::helper('salestaff')->__('Disabled')
+		);
+		array_unshift($statuses, array('label' => '', 'value' => ''));
+		$this->getMassactionBlock()->addItem('status', array(
+			'label' => Mage::helper('salestaff')->__('Change status'),
+			'url' => $this->getUrl('*/*/massStatus', array('_current' => true)),
+			'additional' => array(
+				'visibility' => array(
+					'name' => 'status',
+					'type' => 'select',
+					'class' => 'required-entry',
+					'label' => Mage::helper('salestaff')->__('Status'),
+					'values' => $statuses
+			))
+		));
         return $this;
     }
+	
+	protected function _filterStoreCondition($collection, $column)
+    {
+        if (!$value = $column->getFilter()->getValue()) {
+            return;
+        }
+
+        $this->getCollection()->addFieldToFilter('store_id', $value);
+    }
+	/**
+	 * get url for each row in grid
+	 *
+	 * @return string
+	 */
+	public function getRowUrl($row)
+	{
+		return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+	}
 }

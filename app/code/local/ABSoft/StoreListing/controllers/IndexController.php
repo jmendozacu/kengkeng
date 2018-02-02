@@ -68,15 +68,34 @@ class ABSoft_StoreListing_IndexController extends Mage_Core_Controller_Front_Act
     }
 
     public function testAction()
-    {
-        $summarys = Mage::getModel('review/review_summary')->getCollection();
-
-        $summarys->getSelect()
-            ->columns('SUM(reviews_count) as reviews_count11')
-            ->group('store_id');
-        foreach ($summarys as $summary) {
-            var_dump($summary);
+    { $colections = Mage::getModel('catalog/product')
+        ->getCollection()
+        ->addStoreFilter(7)
+        ->addAttributeToSelect('price')
+        ->addAttributeToSort('price', 'ASC')
+        ;
+        foreach ($colections as $product) {
+            var_dump($product->getPrice());
         }
+//    var_dump($colections);
+    }
+    public function getStar($store_id){
+        $summarys = Mage::getModel('review/review_summary')->getCollection()->addStoreFilter($store_id);
+        if(count($summarys)>0) {
+            $countSummary=0;
+            foreach ($summarys->getItems() as $summary){
+                var_dump($summary->getRatingSummary());
+                $countSummary+=(int)$summary->getRatingSummary();
+            }
+            return $countSummary/count($summary->getReviewsCount());
+        } else {
+            return 0;
+        }
+    }
+    public function apiAction(){
+        $arr = [1,2,3,4,5,6,7,8,9];
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($arr));
     }
 
     public function test1Action()

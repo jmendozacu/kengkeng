@@ -18,4 +18,10 @@
 	  <block type="storelisting/adminhtml_storelocation" name="storelocation" />
 	</reference>
   </storelisting_adminhtml_storelocation_index>
+
+	<storelisting_adminhtml_store_index>
+		<reference name="content">
+			<block type="storelisting/adminhtml_store" name="store" />
+		</reference>
+	</storelisting_adminhtml_store_index>
 </layout>

@@ -1,31 +1,13 @@
-﻿﻿<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <config>
     <modules>
-        <!--Version của module-->
+		<!--Version của module-->
         <Basetut_Salestaff>
             <version>0.1.1</version>
         </Basetut_Salestaff>
     </modules>
-    <frontend>
-        <routers>
-            <salestaff>
-                <use>standard</use>
-                <args>
-                    <module>Basetut_Salestaff</module>
-                    <frontName>salestaff</frontName>
-                </args>
-            </salestaff>
-        </routers>
-        <layout>
-            <updates>
-                <Salestaff>
-                    <file>Salestaff.xml</file>
-                </Salestaff>
-            </updates>
-        </layout>
-    </frontend>
-    <!--Khai báo admin router-->
-    <admin>
+	<!--Khai báo admin router-->
+	<admin>
         <routers>
             <salestaffadmin>
                 <use>admin</use>
@@ -36,8 +18,8 @@
             </salestaffadmin>
         </routers>
     </admin>
-    <adminhtml>
-        <!-- Khai báo file layout trong admin-->
+	<adminhtml>
+		<!-- Khai báo file layout trong admin-->
         <layout>
             <updates>
                 <salestaff>
@@ -45,9 +27,9 @@
                 </salestaff>
             </updates>
         </layout>
-    </adminhtml>
-    <global>
-        <!--Khai báo model, resource model-->
+	</adminhtml>
+	<global>
+		<!--Khai báo model, resource model-->
         <models>
             <salestaff>
                 <class>Basetut_Salestaff_Model</class>
@@ -59,11 +41,11 @@
                     <staff>
                         <table>salestaff_staff</table>
                     </staff>
-                </entities>
-            </salestaff_mysql4>
-        </models>
-        <!--Khai báo resource để connect và thao tác với database được-->
-        <resources>
+				</entities>
+			</salestaff_mysql4>
+		</models>
+		<!--Khai báo resource để connect và thao tác với database được-->
+		<resources>
             <salestaff_setup>
                 <setup>
                     <module>Basetut_Salestaff</module>
@@ -83,18 +65,18 @@
                 </connection>
             </salestaff_read>
         </resources>
-        <!--Khai báo block để có thể dùng được-->
-        <blocks>
+		<!--Khai báo block để có thể dùng được-->
+		<blocks>
             <salestaff>
                 <class>Basetut_Salestaff_Block</class>
             </salestaff>
         </blocks>
-        <!--Khai báo helper-->
+		<!--Khai báo helper-->
         <helpers>
             <salestaff>
                 <class>Basetut_Salestaff_Helper</class>
             </salestaff>
         </helpers>
-    </global>
+	</global>
 					
 </config>

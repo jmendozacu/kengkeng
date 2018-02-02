@@ -90,12 +90,13 @@
                 <sort_order>100</sort_order>
                 <children>
                     <storelocation module="storelisting">
-                        <title>Manage Storelocation</title>
+                        <title>Store</title>
                         <sort_order>0</sort_order>
                         <action>admin_storelisting/adminhtml_storelocation</action>
                     </storelocation>
                 </children>
             </storelisting>
+
         </menu>
         <acl>
             <resources>

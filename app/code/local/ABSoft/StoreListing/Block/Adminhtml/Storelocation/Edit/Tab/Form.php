@@ -10,8 +10,8 @@ class ABSoft_StoreListing_Block_Adminhtml_Storelocation_Edit_Tab_Form extends Ma
 
         $fieldset = $form->addFieldset("storelisting_form", array("legend" => Mage::helper("storelisting")->__("Item information")));
         $stores = array();
-        if (!empty(Mage::app()->getRequest()->getParam("id"))) {
             $current_id = Mage::app()->getRequest()->getParam("id");
+            if($current_id){
             $store_locations = Mage::getModel('storelisting/storelocation')->getCollection()->addFieldToFilter('store_location_id', $current_id);
             $store_locations->getSelect()->join(['core_store' => $store_locations->getTable('core/store')],
                 'main_table.store_id = core_store.store_id',

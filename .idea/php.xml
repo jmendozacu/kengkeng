@@ -2,7 +2,14 @@
 <project version="4">
   <component name="PhpProjectServersManager">
     <servers>
-      <server host="kengkeng.de" id="9923dd6f-16b7-4a5c-9222-2623ccb5ce9e" name="kengkeng.de" />
+      <server host="kengkeng.de/base/storelisting/index/product" id="9923dd6f-16b7-4a5c-9222-2623ccb5ce9e" name="kengkeng.de" />
     </servers>
+  </component>
+  <component name="PhpStepFilterConfiguration">
+    <option name="skippedFunctions">
+      <list>
+        <option value="ABSoft_StoreListing_CartController-&gt;addAction" />
+      </list>
+    </option>
   </component>
 </project>

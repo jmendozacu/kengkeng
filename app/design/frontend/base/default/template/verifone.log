@@ -1,0 +1,117 @@
+﻿2018-01-18T07:39:08+00:00 DEBUG (7): Array
+(
+    [_class] => Verifone_VerifonePayment_Model_Api_Paymentinterface_PaymentInitialization
+    [_fields] => Array
+        (
+            [s-f-5-128_success-url] => https://finnlash.com/fin_en/VerifonePayment/redirect/success/
+            [s-f-5-128_rejected-url] => https://finnlash.com/fin_en/VerifonePayment/redirect/rejected/
+            [s-f-5-128_cancel-url] => https://finnlash.com/fin_en/VerifonePayment/redirect/cancel/
+            [s-f-5-128_expired-url] => https://finnlash.com/fin_en/VerifonePayment/redirect/expired/
+            [s-f-5-128_error-url] => https://finnlash.com/fin_en/VerifonePayment/redirect/error/
+            [s-f-32-32_payment-token] => B45BF015263A5BD794D9CADD5DDE052E
+            [locale-f-2-5_payment-locale] => en_US
+            [t-f-14-19_payment-timestamp] => 2018-01-18 07:39:07
+            [s-f-1-36_merchant-agreement-code] => EC9704474
+            [s-f-1-30_software] => Magento
+            [s-f-1-10_software-version] => 1.9.3.4
+            [i-f-1-11_interface-version] => 3
+            [s-f-1-36_order-number] => 200000009
+            [t-f-14-19_order-timestamp] => 2018-01-18 07:35:18
+            [i-f-1-3_order-currency-code] => 978
+            [l-f-1-20_order-gross-amount] => 4000
+            [l-f-1-20_order-net-amount] => 4000
+            [l-f-1-20_order-vat-amount] => 0
+            [i-t-1-1_skip-confirmation-page] => 1
+            [i-t-1-1_save-payment-method] => 3
+            [s-f-1-30_buyer-first-name] => list truong
+            [s-f-1-30_buyer-last-name] => dat
+            [s-t-1-30_buyer-phone-number] => 01695210389
+            [s-f-1-100_buyer-email-address] => kiepsongthua18@gmail.com
+            [s-t-1-30_delivery-address-line-one] => Hải Phòng, Việt Nam
+            [s-t-1-30_delivery-address-line-two] => Hải Phòng, Việt Nam
+            [s-t-1-30_delivery-address-line-three] => Ahvenanmaa
+            [s-t-1-30_delivery-address-city] => Hải Phòng
+            [s-t-1-30_delivery-address-postal-code] => 8000
+            [i-t-1-3_delivery-address-country-code] => 246
+            [s-t-1-30_bi-name-0] => Anti allergy gel
+            [i-t-1-11_bi-unit-count-0] => 1
+            [l-t-1-20_bi-unit-cost-0] => 3500
+            [l-t-1-20_bi-net-amount-0] => 3500
+            [l-t-1-20_bi-gross-amount-0] => 3500
+            [i-t-1-4_bi-vat-percentage-0] => 0
+            [i-t-1-4_bi-discount-percentage-0] => 0
+            [s-t-1-30_bi-name-1] => Shipping fee - Domestic
+            [i-t-1-11_bi-unit-count-1] => 1
+            [l-t-1-20_bi-unit-cost-1] => 500
+            [l-t-1-20_bi-net-amount-1] => 500
+            [l-t-1-20_bi-gross-amount-1] => 500
+            [i-t-1-4_bi-vat-percentage-1] => 0
+            [i-t-1-4_bi-discount-percentage-1] => 0
+            [s-t-256-256_signature-one] => 575EB997106F30127FC115F0F73EBF976F668080EF3D036DE51933A828BAB660327D5353D1A7822F57D1FC07DFE85B1CDBD2FF5BE99C72EC5A5F91279A55561820C29B67AB354002CA562585CBC56551ABEB28AC9021FEC20718F3E3DCD2A076EF336CD629CAE147C24B5E98670E80099BEFBFB3DE7C12B052A61B34383AA1DF
+        )
+
+    [name] => verifone_paymentinterface_send_request_before
+)
+
+2018-01-18T07:39:30+00:00 DEBUG (7): Array
+(
+    [_class] => Verifone_VerifonePayment_Model_Api_S2s_ListSavedPaymentMethods
+    [_fields] => Array
+        (
+            [s-f-1-30_operation] => list-saved-payment-methods
+            [t-f-14-19_request-timestamp] => 2018-01-18 07:39:30
+            [s-f-1-36_merchant-agreement-code] => EC9704474
+            [s-f-1-30_software] => Magento
+            [s-f-1-10_software-version] => 1.9.3.4
+            [i-f-1-11_interface-version] => 4
+            [l-f-1-20_request-id] => 1516261170
+            [s-t-256-256_signature-one] => 1B7247C900C3FC50C7F9EBD4E5E99840904FDF8BBDEB730EF90B88D6431CE480A1220719CD2E95EC168045A4A3D400C75653AB97FADC5CAE5FBA0ED9B222290824E2EB80062511D53680B6515BA36483EBE445F1C6E7736A25D34BDFE4DA9D403588C004A14BC7431F668624E30108E200F6D2384658293CC0229E70CB4C6A8B
+        )
+
+    [name] => verifone_s2sgate_send_request_before
+)
+
+2018-01-18T07:39:31+00:00 DEBUG (7): Array
+(
+    [_class] => Verifone_VerifonePayment_Model_Api_S2s_ListSavedPaymentMethods
+    [_response] => Zend_Http_Response Object
+        (
+            [version:protected] => 1.1
+            [code:protected] => 200
+            [message:protected] => OK
+            [headers:protected] => Array
+                (
+                    [Date] => Thu, 18 Jan 2018 07:39:31 GMT
+                    [Strict-transport-security] => max-age=31536000; includeSubDomains
+                    [Pragma] => no-cache
+                    [Cache-control] => no-cache,no-store,max-age=0
+                    [Expires] => Thu, 01 Jan 1970 00:00:00 GMT
+                    [Content-type] => text/html;charset=UTF-8
+                    [Content-length] => 0
+                    [Connection] => close
+                )
+
+            [body:protected] => 
+        )
+
+    [_url] => https://epayment1.point.fi/pw/serverinterface
+    [name] => verifone_s2sgate_send_request_after
+)
+
+2018-01-18T07:39:31+00:00 DEBUG (7): Array
+(
+    [_class] => Verifone_VerifonePayment_RedirectController
+    [_response] => Array
+        (
+            [s-t-1-40_shop-order__phase] => Back to Order
+            [i-f-1-11_interface-version] => 3
+            [s-f-1-10_software-version] => .1.187.1.1
+            [s-f-1-36_order-number] => 200000009
+            [s-t-1-30_cancel-reason] => cancel-payment-rejected
+            [s-t-256-256_signature-one] => 24C4F1A1D8A608B957C24FA3B06D1EA1CA2DB021E660B90BE3CC65D03C69E1BAAEDA5724180722B4C34DCF2CADFA49BC2CAB799D1A0AE6F1F447B906DC0921EFA0F1ED0F56C0BC605AB211609C51A326A98D275F45853845CB0ED61F6304468B6B060C5A372497815E050E95922EC94363AD1CD27E8610A76EFDB883760A924C9E3458DFC5EED0FA1709181E323DAD9C9EE499A798C3F3AEEA271F7609AB9E1EFC4A2C383AFAEB10353083A1DF44819431196F941C30834749F898FD817F4F32D84B4A10DB94D89779098B3586C4031CAD729D88A41D548C89CC66441F8F8F510FB6141CA19758A667669D12E5E559DB2A685711C6FBB621D93E9970A5438BE4
+            [s-t-256-256_signature-two] => 19D30D50D3A5E9FED7DBCE9B98407619ADBF466EE9E9BDAACB538DA70537F450C1715D822082333B4B5F597B5699546A82F5DFD009B4FE9E61A0BD78FA860B16FFE2DA96A5844528F0C9AE18117D03D6838FBEDEDBFB2E4A736EA6B2AE86B5064CB0FF3779AB6CC60E3089B99027451B7B53CA848D5F95D7DDD950E7DC918713376CCB2554F4E99A153B558C5BF1691395976873DDD0E599ABB5F0EBD412BD1DA353D310E131EF056DBD4A5C2B581AC0CAD3208A603CB7463DAB57A8C0DF7CE2974173E918CDC1D323759225E6F821A525B51CB1EFFB4B77A4C068A5EB322F2AB8A54C2FAB21BE47702C92C33162FD8A0D2F9313AEE2A14C9140C41F7D0EA252
+        )
+
+    [name] => verifone_paymentinterface_send_request_after
+)
+

@@ -32,7 +32,7 @@ class ABSoft_StoreListing_Block_Ajax extends Mage_Core_Block_Template
             [
                 'rova' => $colection->getTable('rating/rating_vote_aggregated'),
             ], $colection->getConnection()->quoteInto('main_table.rating_id=rova.rating_id'),
-            array('rova.percent_approved'));
+            array('rova.percent_approved'))->group('main_table.rating_id');
         $data=[];
         foreach ($colection as $item) {
             $data['rating'][$item->getRatingCode()]=$item->getPercentApproved();
@@ -44,11 +44,18 @@ class ABSoft_StoreListing_Block_Ajax extends Mage_Core_Block_Template
 
     public function getRatingSummaryStore($store_id)
     {
-        $summarys = Mage::getModel('review/review_summary')->getCollection()->addStoreFilter($store_id);
-        $countSummary = 0;
-        foreach ($summarys->getItems() as $summary) {
-            $countSummary += (int)$summary->getRatingSummary();
+        $summarys = Mage::getModel('review/review_summary')
+            ->getCollection()
+            ->addStoreFilter($store_id)
+            ->addFieldToFilter('reviews_count',array('gt'=>0));
+        if(count($summarys)>0) {
+            $countSummary=0;
+            foreach ($summarys->getItems() as $summary){
+                $countSummary+=(int)$summary->getRatingSummary();
+            }
+            return $countSummary/count($summarys->getItems());
+        } else {
+            return 0;
         }
-        return $countSummary ;
     }
 }

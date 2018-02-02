@@ -22,23 +22,24 @@ class ABSoft_StoreListing_Adminhtml_StorelocationController extends Mage_Adminht
 				$this->renderLayout();
 		}
 		public function editAction()
-		{			    
+		{
 			    $this->_title($this->__("StoreListing"));
 				$this->_title($this->__("Storelocation"));
 			    $this->_title($this->__("Edit Item"));
-				
+
 				$id = $this->getRequest()->getParam("id");
 				$model = Mage::getModel("storelisting/storelocation")->load($id);
-				if ($model->getId()) {
+				if ($model->getId() || $id == 0) {
 					Mage::register("storelocation_data", $model);
 					$this->loadLayout();
 					$this->_setActiveMenu("storelisting/storelocation");
 					$this->_addBreadcrumb(Mage::helper("adminhtml")->__("Storelocation Manager"), Mage::helper("adminhtml")->__("Storelocation Manager"));
 					$this->_addBreadcrumb(Mage::helper("adminhtml")->__("Storelocation Description"), Mage::helper("adminhtml")->__("Storelocation Description"));
 					$this->getLayout()->getBlock("head")->setCanLoadExtJs(true);
-					$this->_addContent($this->getLayout()->createBlock("storelisting/adminhtml_storelocation_edit"))->_addLeft($this->getLayout()->createBlock("storelisting/adminhtml_storelocation_edit_tabs"));
+					$this->_addContent($this->getLayout()->createBlock("storelisting/adminhtml_storelocation_edit"))
+                        ->_addLeft($this->getLayout()->createBlock("storelisting/adminhtml_storelocation_edit_tabs"));
 					$this->renderLayout();
-				} 
+				}
 				else {
 					Mage::getSingleton("adminhtml/session")->addError(Mage::helper("storelisting")->__("Item does not exist."));
 					$this->_redirect("*/*/");
@@ -48,32 +49,7 @@ class ABSoft_StoreListing_Adminhtml_StorelocationController extends Mage_Adminht
 		public function newAction()
 		{
 
-		$this->_title($this->__("StoreListing"));
-		$this->_title($this->__("Storelocation"));
-		$this->_title($this->__("New Item"));
-
-        $id   = $this->getRequest()->getParam("id");
-		$model  = Mage::getModel("storelisting/storelocation")->load($id);
-
-		$data = Mage::getSingleton("adminhtml/session")->getFormData(true);
-		if (!empty($data)) {
-			$model->setData($data);
-		}
-
-		Mage::register("storelocation_data", $model);
-
-		$this->loadLayout();
-		$this->_setActiveMenu("storelisting/storelocation");
-
-		$this->getLayout()->getBlock("head")->setCanLoadExtJs(true);
-
-		$this->_addBreadcrumb(Mage::helper("adminhtml")->__("Storelocation Manager"), Mage::helper("adminhtml")->__("Storelocation Manager"));
-		$this->_addBreadcrumb(Mage::helper("adminhtml")->__("Storelocation Description"), Mage::helper("adminhtml")->__("Storelocation Description"));
-
-
-		$this->_addContent($this->getLayout()->createBlock("storelisting/adminhtml_storelocation_edit"))->_addLeft($this->getLayout()->createBlock("storelisting/adminhtml_storelocation_edit_tabs"));
-
-		$this->renderLayout();
+            $this->_forward('edit');
 
 		}
 		public function saveAction()

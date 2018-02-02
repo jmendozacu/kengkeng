@@ -44,12 +44,17 @@ class ABSoft_StoreListing_CartController extends Mage_Checkout_CartController {
                     }
 
                     $cart->addProduct($product, $params);
+                    $quote = Mage::getSingleton('checkout/session')->getQuote();
+
                     if (!empty($related)) {
                         $cart->addProductsByIds(explode(',', $related));
                     }
+//                    $quoteItem = $quote->addProduct($product, $params['qty'],$params['options']);
 
+//                    $quote->collectTotals()->save();
+
+//                    $quoteItem->getId();
                     $cart->save();
-
                     $this->_getSession()->setCartWasUpdated(true);
 
                     /**
@@ -62,26 +67,6 @@ class ABSoft_StoreListing_CartController extends Mage_Checkout_CartController {
                     if (!$this->_getSession()->getNoCartRedirect(true)) {
                         if (!$cart->getQuote()->getHasError()){
 
-//                            $message = $this->__('%s was added to your shopping cart.', Mage::helper('core')->htmlEscape($product->getName()));
-//                            $response['status'] = 'SUCCESS';
-//                            $response['message'] = $message;
-//                            $this->loadLayout();
-//                            $toplink = $this->getLayout()->getBlock('top.links')->toHtml();
-//                            $sidebar = $this->getLayout()->getBlock('cart_sidebar')->toHtml();
-//                            $response['toplink'] = $toplink;
-//                            $response['sidebar'] = $sidebar;
-
-
-
-//                            $layout = $this->getLayout();
-//                            $update = $layout->getUpdate();
-//                            $update->load('storelisting_cart_add');
-//                            $layout->generateXml();
-//                            //khởi tạo template
-//                            $layout->generateBlocks();
-//                            $detail_cart = $layout->getOutput();
-//                            $cart=Mage::getSingleton('checkout/cart')->getQuote();
-//                            $total_cart = $cart->getGrandTotal();
 
                             //lấy tất cả các options từ request
                             $options=[];

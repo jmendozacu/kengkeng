@@ -1,5 +1,4 @@
 <?php
-
 class Basetut_Salestaff_Block_Adminhtml_Staff_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
     public function __construct()
@@ -9,7 +8,7 @@ class Basetut_Salestaff_Block_Adminhtml_Staff_Edit_Tabs extends Mage_Adminhtml_B
         $this->setDestElementId('edit_form');
         $this->setTitle(Mage::helper('salestaff')->__('Staff Information'));
     }
-
+    
     /**
      * prepare before render block to html
      *
@@ -18,11 +17,11 @@ class Basetut_Salestaff_Block_Adminhtml_Staff_Edit_Tabs extends Mage_Adminhtml_B
     protected function _beforeToHtml()
     {
         $this->addTab('form_section', array(
-            'label' => Mage::helper('salestaff')->__('Staff Information'),
-            'title' => Mage::helper('salestaff')->__('Staff Information'),
-            'content' => $this->getLayout()
-                ->createBlock('salestaff/adminhtml_staff_edit_tab_form')
-                ->toHtml(),
+            'label'     => Mage::helper('salestaff')->__('Staff Information'),
+            'title'     => Mage::helper('salestaff')->__('Staff Information'),
+            'content'   => $this->getLayout()
+                                ->createBlock('salestaff/adminhtml_staff_edit_tab_form')
+                                ->toHtml(),
         ));
         return parent::_beforeToHtml();
     }

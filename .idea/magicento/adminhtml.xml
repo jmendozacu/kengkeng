@@ -542,36 +542,7 @@
                     <action>adminhtml/newsletter_problem/</action>
                 </problem>
             </children>
-        </newsletter><theappnow translate="title">
-            <title>Theappnow</title>
-            <sort_order>70</sort_order>
-            <children>
-                <price module="baseprice" translate="title">
-                    <title>Baseprice</title>
-                    <sort_order>0</sort_order>
-                    <action>basepriceadmin/adminhtml_price</action>
-                </price>
-
-                <tierprice module="baseprice" translate="title">
-                    <title>Tierprice</title>
-                    <sort_order>1</sort_order>
-                    <action>basepriceadmin/adminhtml_tierprice</action>
-                </tierprice>
-
-                <import module="baseprice" translate="title">
-                    <title>Import</title>
-                    <sort_order>2</sort_order>
-                    <action>basepriceadmin/adminhtml_import/product</action>
-                </import>
-
-                <export module="baseprice" translate="title">
-                    <title>Export</title>
-                    <sort_order>3</sort_order>
-                    <action>basepriceadmin/adminhtml_export/product</action>
-                </export>
-
-            </children>
-        </theappnow></menu><acl>
+        </newsletter></menu><acl>
         <resources>
             <all>
                 
@@ -725,7 +696,10 @@
                                     </persistent><store_location translate="title" module="storelisting">
 											<title>Store location Section</title>
 											<sort_order>0</sort_order>
-										</store_location><brands translate="title" module="brands">
+										</store_location><salestaff module="salestaff" translate="title">
+                                        <title>Salestaff</title>
+                                        <sort_order>1</sort_order>
+                                    </salestaff><brands translate="title" module="brands">
 										<title>Brands</title>
 										<sort_order>1</sort_order> 
                                     </brands><cloudzoom translate="title" module="infortis_cloudzoom">
@@ -743,13 +717,7 @@
                                     </ultimo_layout><ultraslideshow translate="title" module="ultraslideshow">
 										<title>Slideshow</title>
 										<sort_order>1</sort_order> 
-                                    </ultraslideshow><baseprice module="baseprice" translate="title">
-                                        <title>Baseprice</title>
-                                        <sort_order>1</sort_order>
-                                    </baseprice><tierprice module="baseprice" translate="title">
-                                        <title>Tierprice</title>
-                                        <sort_order>1</sort_order>
-                                    </tierprice></children>
+                                    </ultraslideshow></children>
                             </config>
                             <currency translate="title">
                                 
@@ -1258,22 +1226,17 @@
                    </newsletter><page_cache translate="title" module="pagecache">
                         <title>External Page Cache</title>
                         <sort_order>0</sort_order>
-                    </page_cache><baseprice module="baseprice" translate="title">
-                        <title>Baseprice</title>
+                    </page_cache><salestaff module="salestaff" translate="title">
+                        <title>Salestaff</title>
                         <sort_order>1</sort_order>
                         <children>
-                            <price module="baseprice" translate="title">
-                                <title>Manage price</title>
+                            <staff module="salestaff" translate="title">
+                                <title>Manage Staffs</title>
                                 <sort_order>0</sort_order>
-                                <action>basepriceadmin/adminhtml_price</action>
-                            </price>
-                            <tierprice module="baseprice" translate="title">
-                                <title>Manage tierprice</title>
-                                <sort_order>0</sort_order>
-                                <action>basepriceadmin/adminhtml_tierprice</action>
-                            </tierprice>
+                                <action>salestaff/adminhtml_staff</action>
+                            </staff>
                         </children>
-                    </baseprice></children>
+                    </salestaff></children>
             </admin>
         </resources>
         <privilegeSets>

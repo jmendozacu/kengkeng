@@ -5,13 +5,16 @@
  * Date: 11/13/2017
  * Time: 4:18 PM
  */
+
+/**
+ * @var $this ABSoft_StoreListing_Block_List
+ */
 $stores = $this->getStoreNearMe();
 
 ?>
 <?php foreach ($stores as $store):  ?>
     <div class="row restaurant">
         <div class=" col-xs-12 col-sm-12 col-md-12">
-
             <div class="border-box">
                 <div class="restaurant-detail">
                     <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).$store['code_store'].'/storelisting/index/product'?>" style="color: black">
@@ -38,6 +41,7 @@ $stores = $this->getStoreNearMe();
                                     </div>
 
                                     <div class="rating-box">
+                                        <?php echo $this->getRatingSummaryStore($store['store_id']) ?>
                                         <div class="rating" style="width: <?php echo $this->getRatingSummaryStore($store['store_id']) ?>%"></div>
                                     </div>
 

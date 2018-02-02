@@ -15,6 +15,8 @@ DROP TABLE IF EXISTS {$this->getTable('salestaff_staff')};
 CREATE TABLE {$this->getTable('salestaff_staff')} (
   `staff_id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
+  `email` varchar(255) NOT NULL default '',
+  `facebook_url` varchar(255) NOT NULL default '',
   `birthday` date NULL,
   `sex` smallint(1) NOT NULL default '1',
   `status` smallint(6) NOT NULL default '1',
