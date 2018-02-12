@@ -15,6 +15,7 @@ class ABSoft_StoreListing_Block_Adminhtml_Storelocation_Edit_Tabs extends Mage_A
 				"title" => Mage::helper("storelisting")->__("Item Information"),
 				"content" => $this->getLayout()->createBlock("storelisting/adminhtml_storelocation_edit_tab_form")->toHtml(),
 				));
+
 				return parent::_beforeToHtml();
 		}
 

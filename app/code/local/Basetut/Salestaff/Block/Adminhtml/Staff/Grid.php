@@ -125,8 +125,8 @@ class Basetut_Salestaff_Block_Adminhtml_Staff_Grid extends Mage_Adminhtml_Block_
             ),
         ));
 		
-        $this->addExportType('*/*/exportCsv', Mage::helper('salestaff')->__('CSV'));
-        $this->addExportType('*/*/exportXml', Mage::helper('salestaff')->__('XML'));
+$this->addExportType('*/*/exportCsv', Mage::helper('salestaff')->__('CSV'));
+$this->addExportType('*/*/exportXml', Mage::helper('salestaff')->__('XML'));
 
         return parent::_prepareColumns();
     }

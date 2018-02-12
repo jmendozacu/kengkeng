@@ -16,88 +16,104 @@ plugin;ValueTrimItemProcessor;pluginhello:Value Trimmer for select/multiselect-0
 plugin;Magmi_ConfigurableItemProcessor;pluginhello:Configurable Item processor-1.3.7a-Dweeves-http://wiki.magmi.org/index.php?title=Configurable_Item_processor 
 plugin;Magmi_DefaultAttributeItemProcessor;pluginhello:Standard Attribute Import-1.1-Dweeves- 
 startup:Performing Datasource Lookup...
-lookup:32:0.002000093460083
-startup:Found 32 records, took 0.002000093460083 sec
+lookup:32:0.0019998550415039
+startup:Found 32 records, took 0.0019998550415039 sec
 info:Initialized attribute_set_infos!
-columns:25
+columns:20
 plugin;Magmi_ConfigurableItemProcessor;startup:Configurable Item processor v1.3.7a - no options_container set, defaulting to :Block after product info
-plugin;Magmi_DefaultAttributeItemProcessor;startup:Standard Attribute Import v1.1 - Newly created items will have default values for columns:page_layout,tax_class_id
-startup:Ajusted processed columns:29
-itime:1 - 0.0010011196136475 - 0.0010011196136475
+plugin;Magmi_DefaultAttributeItemProcessor;startup:Standard Attribute Import v1.1 - Newly created items will have default values for columns:type,page_layout,tax_class_id
+startup:Ajusted processed columns:25
+itime:1 - 0 - 0
 dbtime:0 - 0 - 0 - 0
-plugin;ImageAttributeItemProcessor;warning:SKU MML1_0 - Image attributes processor v1.0.33a - /volume-lashes-2_2.jpg cannot be found in images path
-plugin;ImageAttributeItemProcessor;warning:SKU MML1_0 - Image attributes processor v1.0.33a - /volume-lashes.jpg cannot be found in images path
-plugin;ImageAttributeItemProcessor;warning:SKU MML1_0 - Image attributes processor v1.0.33a - /volume-lashes_2.jpg cannot be found in images path
-itime:2 - 3.1851830482483 - 3.1841819286346
-dbtime:28 - 3.1411790847778 - 3.1411790847778 - 28
-itime:3 - 3.3231911659241 - 0.13700819015503
-dbtime:50 - 3.2551863193512 - 0.11400723457336 - 22
-itime:4 - 3.4591979980469 - 0.13500690460205
-dbtime:72 - 3.3341906070709 - 0.079004287719727 - 22
-itime:5 - 3.5632040500641 - 0.10400605201721
-dbtime:94 - 3.4141955375671 - 0.080004930496216 - 22
-itime:6 - 3.6942119598389 - 0.13000798225403
-dbtime:116 - 3.4922003746033 - 0.078004837036133 - 22
-itime:7 - 3.8002181053162 - 0.10500597953796
-dbtime:138 - 3.5732052326202 - 0.081004858016968 - 22
-itime:8 - 3.944226026535 - 0.14200806617737
-dbtime:160 - 3.6902122497559 - 0.11700701713562 - 22
-itime:9 - 4.0432319641113 - 0.099005937576294
-dbtime:182 - 3.7652173042297 - 0.075005054473877 - 22
-itime:10 - 4.139237165451 - 0.095005035400391
-dbtime:204 - 3.84122133255 - 0.076004028320312 - 22
-itime:11 - 4.2732450962067 - 0.13300800323486
-dbtime:226 - 3.9532284736633 - 0.11200714111328 - 22
-itime:12 - 4.432254076004 - 0.15900897979736
-dbtime:248 - 4.0902366638184 - 0.13700819015503 - 22
-itime:13 - 4.5652620792389 - 0.13300800323486
-dbtime:270 - 4.1702415943146 - 0.080004930496216 - 22
-itime:14 - 4.7872741222382 - 0.22101211547852
-dbtime:292 - 4.3852527141571 - 0.21501111984253 - 22
-itime:15 - 4.9062809944153 - 0.11900687217712
-dbtime:314 - 4.4492566585541 - 0.064003944396973 - 22
-itime:16 - 5.0022871494293 - 0.096006155014038
-dbtime:336 - 4.5232615470886 - 0.074004888534546 - 22
-itime:17 - 5.0982921123505 - 0.095005035400391
-dbtime:358 - 4.6012654304504 - 0.078003883361816 - 22
-itime:18 - 5.3493061065674 - 0.25001406669617
-dbtime:380 - 4.6992716789246 - 0.098006248474121 - 22
-itime:19 - 5.6273219585419 - 0.27701592445374
-dbtime:402 - 4.8442792892456 - 0.14500761032104 - 22
-itime:20 - 5.9433400630951 - 0.31601810455322
-dbtime:424 - 4.9842879772186 - 0.14000868797302 - 22
-itime:21 - 6.1743540763855 - 0.23101401329041
-dbtime:446 - 5.133296251297 - 0.14900827407837 - 22
-itime:22 - 6.4473690986633 - 0.27201509475708
-dbtime:468 - 5.2783043384552 - 0.1450080871582 - 22
-itime:23 - 6.6383800506592 - 0.1900110244751
-dbtime:490 - 5.3683094978333 - 0.090005159378052 - 22
-itime:24 - 6.8623931407928 - 0.22401309013367
-dbtime:512 - 5.5383186340332 - 0.17000913619995 - 22
-itime:25 - 7.0084011554718 - 0.14400815963745
-dbtime:534 - 5.6413233280182 - 0.10300469398499 - 22
-itime:26 - 7.146409034729 - 0.13700795173645
-dbtime:556 - 5.7473292350769 - 0.10600590705872 - 22
-itime:27 - 7.2674160003662 - 0.12000703811646
-dbtime:578 - 5.808333158493 - 0.061003923416138 - 22
-itime:28 - 7.4474260807037 - 0.17900991439819
-dbtime:600 - 5.9353408813477 - 0.12700772285461 - 22
-itime:29 - 7.5774340629578 - 0.13000798225403
-dbtime:622 - 6.0313470363617 - 0.096006155014038 - 22
-itime:30 - 7.6434381008148 - 0.066004037857056
-dbtime:644 - 6.0883502960205 - 0.057003259658813 - 22
-itime:31 - 7.7504441738129 - 0.10600614547729
-dbtime:666 - 6.1453537940979 - 0.057003498077393 - 22
-itime:32 - 7.7734451293945 - 0.022001028060913
-dbtime:688 - 6.1593549251556 - 0.014001131057739 - 22
-plugin;Magmi_ConfigurableItemProcessor;warning:SKU MML1 - Configurable Item processor v1.3.7a - No configurable attributes found for configurable sku: MML1 cannot link simples.
-itime:32 - 14.096807003021 - 6.3233618736267
-dbtime:719 - 12.332707881927 - 6.1733529567719 - 31
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO021 - Image attributes processor v1.0.33a - 1.jpg cannot be found in images path
+itime:2 - 0.064002990722656 - 0.064002990722656
+dbtime:89 - 0.053003311157227 - 0.053003311157227 - 89
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO022 - Image attributes processor v1.0.33a - 2.jpg cannot be found in images path
+itime:3 - 0.08800482749939 - 0.024001836776733
+dbtime:158 - 0.069005489349365 - 0.016002178192139 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO023 - Image attributes processor v1.0.33a - 3.jpg cannot be found in images path
+itime:4 - 0.11700582504272 - 0.028000831604004
+dbtime:233 - 0.09000563621521 - 0.021000146865845 - 75
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO024 - Image attributes processor v1.0.33a - 4.jpg cannot be found in images path
+itime:5 - 0.14900779724121 - 0.032001972198486
+dbtime:303 - 0.11300754547119 - 0.023001909255981 - 70
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO025 - Image attributes processor v1.0.33a - 5.jpg cannot be found in images path
+itime:6 - 0.17600989341736 - 0.027002096176147
+dbtime:373 - 0.13100957870483 - 0.018002033233643 - 70
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO026 - Image attributes processor v1.0.33a - 6.jpg cannot be found in images path
+itime:7 - 0.20501089096069 - 0.028001070022583
+dbtime:442 - 0.15101051330566 - 0.02000093460083 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO027 - Image attributes processor v1.0.33a - 7.jpg cannot be found in images path
+itime:8 - 0.23801279067993 - 0.033001899719238
+dbtime:511 - 0.17801260948181 - 0.027002096176147 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO028 - Image attributes processor v1.0.33a - 8.jpg cannot be found in images path
+itime:9 - 0.28501582145691 - 0.047003030776978
+dbtime:580 - 0.21801567077637 - 0.040003061294556 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO029 - Image attributes processor v1.0.33a - 9.jpg cannot be found in images path
+itime:10 - 0.31801795959473 - 0.032001972198486
+dbtime:656 - 0.24301743507385 - 0.025001764297485 - 76
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO030 - Image attributes processor v1.0.33a - 10.jpg cannot be found in images path
+itime:11 - 0.37302088737488 - 0.054003000259399
+dbtime:725 - 0.26301956176758 - 0.020002126693726 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO031 - Image attributes processor v1.0.33a - 11.jpg cannot be found in images path
+itime:12 - 0.43502402305603 - 0.0610032081604
+dbtime:794 - 0.31102275848389 - 0.048003196716309 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO032 - Image attributes processor v1.0.33a - 12.jpg cannot be found in images path
+itime:13 - 0.47002601623535 - 0.035001993179321
+dbtime:863 - 0.33902406692505 - 0.028001308441162 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO033 - Image attributes processor v1.0.33a - 13.jpg cannot be found in images path
+itime:14 - 0.52202892303467 - 0.052002906799316
+dbtime:932 - 0.38402605056763 - 0.045001983642578 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO034 - Image attributes processor v1.0.33a - 14.jpg cannot be found in images path
+itime:15 - 0.55403089523315 - 0.032001972198486
+dbtime:1002 - 0.41202735900879 - 0.028001308441162 - 70
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO035 - Image attributes processor v1.0.33a - 15.jpg cannot be found in images path
+itime:16 - 0.5810329914093 - 0.026002168655396
+dbtime:1071 - 0.42902827262878 - 0.017000913619995 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO036 - Image attributes processor v1.0.33a - 16.jpg cannot be found in images path
+itime:17 - 0.61203479766846 - 0.031001806259155
+dbtime:1146 - 0.45003008842468 - 0.021001815795898 - 75
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO037 - Image attributes processor v1.0.33a - 17.jpg cannot be found in images path
+itime:18 - 0.64203596115112 - 0.029000997543335
+dbtime:1215 - 0.47203087806702 - 0.022000789642334 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO038 - Image attributes processor v1.0.33a - 18.jpg cannot be found in images path
+itime:19 - 0.66703796386719 - 0.025002002716064
+dbtime:1284 - 0.49103283882141 - 0.019001960754395 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO039 - Image attributes processor v1.0.33a - 19.jpg cannot be found in images path
+itime:20 - 0.69303894042969 - 0.0260009765625
+dbtime:1353 - 0.51203417778015 - 0.02100133895874 - 69
+plugin;ImageAttributeItemProcessor;warning:SKU 3HOHO040 - Image attributes processor v1.0.33a - 20.jpg cannot be found in images path
+itime:21 - 0.72104096412659 - 0.027002096176147
+dbtime:1422 - 0.53303599357605 - 0.021001815795898 - 69
+itime:22 - 0.745041847229 - 0.024000883102417
+dbtime:1491 - 0.5510368347168 - 0.018000841140747 - 69
+itime:23 - 0.76504302024841 - 0.019001007080078
+dbtime:1560 - 0.56603765487671 - 0.015000820159912 - 69
+itime:24 - 0.78504490852356 - 0.019001960754395
+dbtime:1629 - 0.58203864097595 - 0.016000986099243 - 69
+itime:25 - 0.80504584312439 - 0.02000093460083
+dbtime:1698 - 0.5930392742157 - 0.011000633239746 - 69
+itime:26 - 0.8250470161438 - 0.020001173019409
+dbtime:1767 - 0.60504055023193 - 0.012001276016235 - 69
+itime:27 - 0.84404802322388 - 0.019001007080078
+dbtime:1836 - 0.61704158782959 - 0.012001037597656 - 69
+itime:28 - 0.86504888534546 - 0.02000093460083
+dbtime:1905 - 0.62904262542725 - 0.012001037597656 - 69
+itime:29 - 0.88905000686646 - 0.024001121520996
+dbtime:1974 - 0.64704346656799 - 0.018000841140747 - 69
+itime:30 - 0.90805196762085 - 0.019001960754395
+dbtime:2043 - 0.66104340553284 - 0.013999938964844 - 69
+itime:31 - 0.92805290222168 - 0.02000093460083
+dbtime:2112 - 0.67704463005066 - 0.016001224517822 - 69
+itime:32 - 0.94805383682251 - 0.019001007080078
+dbtime:2181 - 0.68904566764832 - 0.012001037597656 - 69
+itime:32 - 0.96805500984192 - 0.020001173019409
+dbtime:2251 - 0.70404648780823 - 0.015000820159912 - 70
 info:Skus imported OK:32/32
 plugin;Magmi_ReindexingPlugin;info:Magmi Magento Reindexer v1.0.3a - Cleaning flat tables before reindex...
 plugin;Magmi_ReindexingPlugin;info:Magmi Magento Reindexer v1.0.3a - running indexer
 plugin;Magmi_ReindexingPlugin;info:Magmi Magento Reindexer v1.0.3a - Reindexing ....
 plugin;Magmi_ReindexingPlugin;info:Magmi Magento Reindexer v1.0.3a - 
-plugin;Magmi_ReindexingPlugin;info:Magmi Magento Reindexer v1.0.3a - done in 0.29 secs
+plugin;Magmi_ReindexingPlugin;info:Magmi Magento Reindexer v1.0.3a - done in 0.14 secs
 plugin;CategoryImporter;info:On the fly category creator/importer v0.2.5 - Updating Category children count....
 end:Import Ended

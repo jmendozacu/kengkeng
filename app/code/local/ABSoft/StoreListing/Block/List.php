@@ -5,7 +5,7 @@ class ABSoft_StoreListing_Block_List extends Mage_Core_Block_Template
     public function getStoreNearMe(){
         $sort = Mage::registry('sort');
         $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $sql        = "SELECT core_store.name as namestore, img,time_open,store_location.store_id, core_store.code as code_store ,address ,city,latitude,longitude, 
+        $sql        = "SELECT core_store.name as namestore, img,time_open,time_close,store_location.store_id, core_store.code as code_store ,address ,city,latitude,longitude, 
         ( 3959 * acos( cos( radians(".Mage::registry('lat').") ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(".Mage::registry('lng').") ) + sin( radians(".Mage::registry('lat').") ) *sin( radians( latitude ) ) ) ) AS distance 
         FROM store_location INNER JOIN core_store ON core_store.store_id = store_location.store_id ORDER BY distance";
 
@@ -17,43 +17,35 @@ class ABSoft_StoreListing_Block_List extends Mage_Core_Block_Template
             $row['rating']= $this->getRatingSummaryStore($row['store_id']);
             $row['lowest']= $this->getLowestPriceProductStore($row['store_id']);
             $row['highest']= $this->getProductHighestPriceByStore($row['store_id']);
+            $row['count_review']= $this->getCountReview($row['store_id']);
+            $row['percent']= $this->getRatingSummaryStore($row['store_id']);
             array_push($new_rows,$row);
         }
-        if($sort=='rating') {
-            $new_rows = $this->getCustomSort($new_rows,'rating',"DESC");
-        }
-        if($sort=='lowest') {
-            $new_rows = $this->getCustomSort($new_rows,'lowest');
-        }
-        if($sort=='highest') {
-            $new_rows = $this->getCustomSort($new_rows,'highest',"DESC");
-        }
-//        var_dump($new_rows);
         return $new_rows;
     }
-    public function getCustomSort($array,$index,$type="ASC"||"DESC") {
-        $a = array();
-        $b = array();
-
-        foreach ($array as $key => $value) {
-            $a[$key] = $value[$index];
-        }
-        if($type=="ASC") {
-            asort($a);
-
-        } else {
-            arsort($a);
-        }
-        foreach ($a as $key => $value) {
-
-            $b[] = $array[$key];
-        }
-        return $b ;
-    }
+//    public function getCustomSort($array,$index,$type="ASC"||"DESC") {
+//        $a = array();
+//        $b = array();
+//
+//        foreach ($array as $key => $value) {
+//            $a[$key] = $value[$index];
+//        }
+//        if($type=="ASC") {
+//            asort($a);
+//
+//        } else {
+//            arsort($a);
+//        }
+//        foreach ($a as $key => $value) {
+//
+//            $b[] = $array[$key];
+//        }
+//        return $b ;
+//    }
     public function getStoreByCode(){
         $code = Mage::app()->getStore()->getCode();
         $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $sql        = "SELECT core_store.name as namestore, img,time_open,store_location.store_id, core_store.code as code_store ,address ,city,latitude,longitude FROM store_location INNER JOIN core_store ON core_store.store_id = store_location.store_id WHERE core_store.code = '{$code}'";
+        $sql        = "SELECT core_store.name as namestore, img,time_open,time_close,store_location.store_id, core_store.code as code_store ,address ,city,latitude,longitude FROM store_location INNER JOIN core_store ON core_store.store_id = store_location.store_id WHERE core_store.code = '{$code}'";
         $rows       = $connection->fetchAll($sql);
         return $rows;
     }
@@ -126,6 +118,24 @@ class ABSoft_StoreListing_Block_List extends Mage_Core_Block_Template
     //đếm số lượng review của store
     public function getCountReview($store_id){
         return count($this->getAllReviewStore($store_id));
+    }
+
+    public function getCart(){
+        $quote = Mage::getSingleton('checkout/cart')->getQuote();
+        return $quote;
+    }
+
+    public function getStoreIsOpen(){
+        $store = $this->getStoreByCode()[0];
+        $current_time = strtotime('now');
+        $start_time = strtotime(str_replace(',',':',$store['time_open']));
+        $end_time = strtotime(str_replace(',',':',$store['time_close']));
+        if($current_time<$start_time || $current_time>$end_time){
+            return 0;
+        } else {
+            return 1;
+        }
+            
     }
 
 }

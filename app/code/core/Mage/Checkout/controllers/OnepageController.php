@@ -81,7 +81,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
      */
     protected function _ajaxRedirectResponse()
     {
-        die;
         $this->getResponse()
             ->setHeader('HTTP/1.1', '403 Session Expired')
             ->setHeader('Login-Required', 'true')
@@ -100,8 +99,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             || $this->getOnepage()->getQuote()->getHasError()
             || $this->getOnepage()->getQuote()->getIsMultiShipping()
         ) {
-            echo "<script>alert(4)</script>";
-
             $this->_ajaxRedirectResponse();
             return true;
         }
@@ -109,8 +106,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         if (Mage::getSingleton('checkout/session')->getCartWasUpdated(true)
             && !in_array($action, array('index', 'progress'))
         ) {
-            echo "<script>alert(5)</script>";
-
             $this->_ajaxRedirectResponse();
             return true;
         }
@@ -317,7 +312,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         $this->renderLayout();
     }
 
-
     /**
      * Get additional info action
      */
@@ -352,18 +346,15 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
     public function saveMethodAction()
     {
         if ($this->_expireAjax()) {
-            echo "<script>alert(1)</script>";
             return;
         }
 
         if ($this->isFormkeyValidationOnCheckoutEnabled() && !$this->_validateFormKey()) {
-            echo "<script>alert(2)</script>";
 
             return;
         }
 
         if ($this->getRequest()->isPost()) {
-            echo "<script>alert(3)</script>";
 
             $method = $this->getRequest()->getPost('method');
             $result = $this->getOnepage()->saveCheckoutMethod($method);
@@ -395,7 +386,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
                 $data['email'] = trim($data['email']);
             }
             $result = $this->getOnepage()->saveBilling($data, $customerAddressId);
-
             if (!isset($result['error'])) {
                 if ($this->getOnepage()->getQuote()->isVirtual()) {
                     $result['goto_section'] = 'payment';

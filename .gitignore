@@ -4,3 +4,4 @@
 var/session
 var/report
 var/cache
+node_modules

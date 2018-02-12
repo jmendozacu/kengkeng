@@ -1,5 +1,6 @@
 
 (function($){
+    var url = window.location.href.split('/');
     $(document).on('click','.count-review',function(){
         $('.loadding-img').show();
         //lấy id store

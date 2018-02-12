@@ -1,0 +1,405 @@
+<?php
+
+/**
+ * @var ABSoft_StoreListing_Block_Product $this
+ */
+$helperCart = $this->helper('checkout/cart');
+$productInCarts = $this->getProductInCart();
+$categorys = $this->getCategorys();
+$data = $this->getProductByCategory();
+$list_block = $this->getLayout()->createBlock('storelisting/list');
+
+?>
+<script>
+    var form_product = Class.create();
+    form_product.prototype = {
+        initialize: function (form_id, price, options) {
+            this.form = jQuery('#' + form_id);
+            this.options = options;
+            this.optionsChecked = [];
+            this.product = '';
+            this.action = this.form[0].action.replace("checkout/cart", "storelisting/cart");
+            this.price = price;
+            this.inputs = '';
+            this.validator = new VarienForm(form_id,{focusOnError : true});
+        },
+        submit: function () {
+            if (this.validator.validator.validate()) {
+                this.inputs = this.form.serialize();
+                this.addCart();
+                var product = this.product;
+                var optionsChecked = this.optionsChecked.join('-');
+                rows = jQuery('.row-product');
+                if(rows.length>0){
+                    jQuery('.btn-setMethod').removeClass('hidden');
+                    jQuery('.shop-cart-empty').addClass('hidden');
+                } else {
+
+                }
+                new Ajax.Request(
+                    this.action,
+                    {
+                        method: 'post',
+                        onFailure: '',
+                        onSuccess: function (data) {
+                            jQuery('[data-product="' + product + '"][data-options-checked="' + optionsChecked + '"]')
+                                .find('div.qty-remove-product-options')
+                                .attr('data-delete-url', data['responseJSON']['url']);
+                            jQuery('[data-product="' + product + '"][data-options-checked="' + optionsChecked + '"]')
+                                .find('div.qty-remove-product-options')
+                                .attr('data-item-id', data['responseJSON']['item_id']);
+                            jQuery('[data-product="' + product + '"][data-options-checked="' + optionsChecked + '"]')
+                                .find('div.qty-add-class')
+                                .attr('data-item-id', data['responseJSON']['item_id']);
+                            jQuery('[data-product="' + product + '"][data-options-checked="' + optionsChecked + '"]')
+                                .attr('data-item-id', data['responseJSON']['item_id'])
+                            jQuery('[data-product="' + product + '"][data-options-checked="' + optionsChecked + '"]').removeClass('disable-div')
+                        },
+                        parameters: this.inputs
+                    }
+                );
+                jQuery('.modal').modal('hide');
+            }
+
+        },
+        addCart: function () {
+            var value = this.inputs.split('&');
+            var optionChecked = [];
+            var price = parseFloat(this.price);
+            var options = this.getOptionValue();
+            var product = '';
+            var product_name = '';
+            var product_sku = '';
+            //lấy thông tin submit
+            value.forEach(function (t) {
+                //lấy option đã chọn
+                if (t.search('options') !== -1) {
+                    optionChecked.push(t.split('=')[1])
+                }
+                //lấy id product
+                if (t.search('product') !== -1) {
+                    product = t.split('=')[1];
+                }
+                //lấy tên product
+                if (t.search('product_name') !== -1) {
+                    product_name = t.split('=')[1].replace('+', ' ');
+                }
+                //lấy sku product
+                if (t.search('product_sku') !== -1) {
+                    product_sku = t.split('=')[1].replace('+', ' ');
+                }
+            });
+            this.product = product;
+            this.optionsChecked = optionChecked;
+            //lấy tổng giá của option + giá chính
+            optionChecked.forEach(function (t) {
+                options.forEach(function (t2) {
+                    if (t === t2['option_type_id']) {
+                        price += parseFloat(t2['price']);
+                        product_name += ' ,' + t2['title']
+                    }
+                })
+            });
+            var strOptionsChecked = optionChecked.join('-');
+            //kiểm tra xem san phẩm đã có trong giỏ hàng chưa
+            //có hàng trong giỏ hàng sẽ thay đổi số lượng và giá
+            if (this.checkProduct(optionChecked) === true) {
+                element = jQuery('.product-has-options[data-product="' + this.product + '"][data-options-checked="' + strOptionsChecked + '"]');
+                var elementQty = element.find('span.text-qty');
+                elementQty.html(parseInt(elementQty.html()) + 1);
+                var elementTotal = jQuery(element).find('td.total');
+                elementTotal.html(
+                    (parseFloat(elementTotal.html()) + parseFloat(price)).toFixed(2)
+                );
+                this.reloadGrandTotal()
+            }
+            // nếu chưa có thì thêm một hàng vào giỏ hàng
+            else {
+                var html = "" +
+                    "<tr data-product='" + product + "' data-options-checked='" + strOptionsChecked + "' data-item-id='' data-price='" + parseFloat(price).toFixed(2) + "' class='row-product product-has-options disable-div'>" +
+                    "<td class='qty'>" +
+                    "<div class='qty-minus btn-qty'>" +
+                    "<i class='fa fa-minus' aria-hidden='true'></i>" +
+                    "</div>" +
+                    "<span class='text-qty'>1</span>" +
+                    "<div class='qty-plus btn-qty'>" +
+                    "<i  class='fa fa-plus' aria-hidden='true'></i>" +
+                    "</div>" +
+                    "</td>" +
+                    "<td class='name'>" + product_name + "</td>" +
+                    "<td class='total'>" + price.toFixed(2) + "</td>" +
+                    "</tr>" +
+                    "";
+                jQuery('#detail-cart').append(html);
+                this.reloadGrandTotal()
+            }
+        },
+        getOptionValue: function () {
+            var optionValue = [];
+            for (var key in this.options) {
+                for (var key1 in this.options[key]['option_value']) {
+                    if (typeof this.options[key]['option_value'][key1] === 'object')
+                        optionValue.push(this.options[key]['option_value'][key1])
+                }
+            }
+            return optionValue
+        },
+        checkProduct: function (arr) {
+            var check = false;
+            var product = this.product;
+            jQuery('.product-has-options').each(function (t) {
+                if (jQuery(this).attr('data-product') === product) {
+                    var options = [];
+
+                    if (jQuery(this).attr('data-options-checked') !== '') {
+                        options = jQuery(this).attr('data-options-checked').split('-');
+                    }
+                    if (options.length === arr.length) {
+                        var count = 0;
+                        options.forEach(function (t2) {
+                            arr.forEach(function (t3) {
+                                if (t2 === t3) {
+                                    count++;
+                                }
+                            })
+                        })
+                        if (count === arr.length)
+                            check = true;
+                    }
+                }
+            });
+            return check;
+        },
+        reloadGrandTotal: function () {
+            var total = 0;
+            jQuery('.total').each(function () {
+                total += parseFloat(jQuery(this).html());
+            })
+            jQuery('#grand-total').html(total.toFixed(2));
+        }
+    }
+    jQuery(document).on('click', '.hasOptions', function () {
+        var modal = jQuery(this).attr('data-modal');
+        jQuery('#' + modal).modal('show');
+    });
+
+    jQuery(document).on('ready',function(){
+        jQuery('input').iCheck({
+            checkboxClass: 'icheckbox_square-yellow',
+            radioClass: 'iradio_square-yellow',
+            increaseArea: '20%' // optional
+        });
+    })
+</script>
+<a href="#" onclick="history.go(-1)" class="link-back"><i class="fa fa-chevron-left" aria-hidden="true"></i><?php echo $this->__('BACK') ?></a>
+<div class="list-product">
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main-category">
+                <?php $i = 0;
+                foreach ($categorys as $index => $category) { ?>
+                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 main-category_item category-item <?php echo $i == 0 ? 'active' : '' ?> "
+                         data-parent-id="<?php echo $category->getId() ?>"
+                         style="" data-category-id="<?php echo $category->getEntityId() ?>">
+                        <div class="category-lv1">
+                            <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+                            <span><?php echo $category->getName() ?></span>
+                        </div>
+                    </div>
+                    <?php $i++;
+                } ?>
+            </div>
+            <?php $i = 0;
+            foreach ($categorys as $index => $category) { ?>
+                <?php $subCategorys = $this->getSubcategorys($category->getId()) ?>
+                <?php if (count($subCategorys) == 0) {
+                    continue;
+                } ?>
+
+                <div class="col-md-12 col-xs-6 sub-category parent-id-<?php echo $category->getId() ?> <?php echo $i == 0 ? 'item-show' : 'item-hidden' ?>">
+                    <?php foreach ($subCategorys as $subCategory) { ?>
+                        <div class="col-md-3 sub-category_item category-item"
+                             data-category-id="<?php echo $subCategory->getId() ?>">
+                            <div class="category-lv2">
+                                <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+                                <span><?php echo $subCategory->getName() ?></span>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+                <?php $i++;
+            } ?>
+            <div class="main-product clearfix">
+                <div class="product-list " id="product-list">
+                    <?php echo $this->getChildHtml('storelisting.index.product.product') ?>
+                </div>
+
+                <div class="loadding-img1" style="display: none;">
+                    <img src="/media/storelisting/Loading_icon.gif" alt="">
+                </div>
+            </div>
+        </div>
+
+
+<div class="loadding-img" style="display: none;">
+    <img src="/media/storelisting/Loading_icon.gif" alt="">
+</div>
+<script>
+    (function ($) {
+        var url = window.location.href.split('/');
+        var isOpen = <?php echo $list_block->getStoreIsOpen() ?>
+//        $(document).on('click','.hasOptions',function(){
+//            var modal = $(this).attr('data-modal');
+//            $('#'+modal).toggleClass('show');
+//            var formModel = new form('#form-'+$(this).attr('data-product'))
+//        })
+        $(document).on('ready',function(){
+                if(!isOpen){
+                    $('#checkout-step-login').hide()
+                    $('#checkout-step-billing').hide()
+                }
+        })
+        $(document).on('click','.modal-footer button','click',function(){
+            $('.panel-collapse.collapse').each(function(index){
+                $(this).removeClass('in')
+            })
+        })
+        $(document).on('click','.panel-heading',function(){
+            $(this).toggleClass('active');
+            var child= $(this).attr('data-child');
+            $('#'+child).toggleClass('in');
+
+        });
+        $(document).on('click', '.main-category_item', function () {
+            $('.main-category_item').removeClass('active');
+            $(this).addClass('active');
+            var child = $(this).attr('data-parent-id');
+            $('.sub-category').addClass('item-hidden');
+            $('.sub-category').removeClass('item-show')
+
+            $('.parent-id-' + child).addClass('item-show')
+        });
+        $(document).on('click', '.sub-category_item', function () {
+            $('.sub-category_item').removeClass('active');
+            $(this).addClass('active')
+        });
+        $(document).on('click', '.category-item', function () {
+            console.log(url);
+            $('.loadding-img1').show();
+            var category_id = $(this).attr('data-category-id');
+            $.ajax({
+                url: '/'+url[3]+'/storelisting/index/productcategory',
+                method: "POST",
+                data: {category_id: category_id},
+                dataType: "JSON",
+                success: function (data) {
+                    $('#product-list').html('');
+                    $('#product-list').append(data.result);
+                    $('.loadding-img1').hide();
+                    $('input').iCheck({
+                        checkboxClass: 'icheckbox_square-yellow',
+                        radioClass: 'iradio_square-yellow',
+                        increaseArea: '20%' // optional
+                    });
+
+                }
+            })
+        });
+
+        function getGrandTotal() {
+            var total = 0;
+            $('.total').each(function () {
+                total += parseFloat($(this).html());
+            })
+            $('#grand-total').html(total.toFixed(2));
+        }
+
+        $(document).on('click', '.qty-minus', function () {
+            var parentElement = $(this).parent().parent();
+            var totalElement = $(parentElement).find('.total');
+            var qtyElement = $(parentElement).find('.text-qty');
+            var price = $(parentElement).attr('data-price');
+            var item_id = $(parentElement).attr('data-item-id');
+
+            qtyElement.html(parseInt(qtyElement.html()) -1);
+            totalElement.html(
+                (parseFloat(totalElement.html())-parseFloat(price)).toFixed(2)
+            );
+            var qty = qtyElement.html();
+            if(qty==='0'){
+                $(this).parent().parent().remove();
+            }
+            getGrandTotal();
+            var cart={};
+            cart[item_id]={
+                "qty":qty
+            };
+            $.ajax({
+                url: '/'+url[3]+"/storelisting/cart/updateQtyItemHasOptions",
+                method: "POST",
+                dataType:"JSON",
+                data: {
+                    "cart":cart
+                },
+                success: function (data) {
+
+                }
+            });
+
+            rows = $('.row-product');
+            if(rows.length<=0){
+                $('.btn-setMethod').addClass('hidden');
+                $('.shop-cart-empty').removeClass('hidden');
+
+            }
+        })
+        $(document).on('click', '.qty-plus', function () {
+            var parentElement = $(this).parent().parent();
+            var totalElement = $(parentElement).find('.total');
+            var qtyElement = $(parentElement).find('.text-qty');
+            var price = $(parentElement).attr('data-price');
+            var item_id = $(parentElement).attr('data-item-id');
+
+            qtyElement.html(parseInt(qtyElement.html()) +1);
+            totalElement.html(
+                (parseFloat(totalElement.html())+parseFloat(price)).toFixed(2)
+            );
+            var qty = qtyElement.html();
+
+            getGrandTotal();
+            var cart={};
+            cart[item_id]={
+                "qty":qty
+            }
+            $.ajax({
+                url: '/'+url[3]+"/storelisting/cart/updateQtyItemHasOptions",
+                method: "POST",
+                data: {
+                    "cart":cart
+                },
+                dataType: "JSON",
+                success: function () {
+
+                }
+            })
+        })
+
+
+        $(document).ajaxStart(function() {
+//            alert("xong");
+            $('.cart-loadding').removeClass('hidden')
+        });
+        $(document).ajaxStop(function() {
+            $('.cart-loadding').addClass('hidden')
+        });
+        $(document).on('ready',function(){
+            rows = $('.row-product');
+            if(rows.length>0){
+                $('.btn-setMethod').removeClass('hidden');
+            }
+        })
+//        $(document).on('click','.close',function(){
+//            $(this).parent().parent().toggleClass('show');
+//        })
+
+    })(jQuery)
+</script>

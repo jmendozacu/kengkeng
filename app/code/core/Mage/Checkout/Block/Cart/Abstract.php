@@ -38,12 +38,14 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
     protected $_quote    = null;
 
     protected $_totals;
+    //TODO 3
     protected $_itemRenders = array();
 
     public function __construct()
     {
         parent::__construct();
         $this->addItemRender('default', 'checkout/cart_item_renderer', 'checkout/cart/item/default.phtml');
+
     }
 
     /**
@@ -99,16 +101,20 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
      */
     public function getItemRenderer($type)
     {
+        //TODO 2
         if (!isset($this->_itemRenders[$type])) {
             $type = 'default';
         }
+//        var_dump($this->_itemRenders);
+        //tạo tạo 1 template sử dụng cú pháp $this->getLayout()->createBlock()->setTemplate()
         if (is_null($this->_itemRenders[$type]['blockInstance'])) {
              $this->_itemRenders[$type]['blockInstance'] = $this->getLayout()
                 ->createBlock($this->_itemRenders[$type]['block'])
                     ->setTemplate($this->_itemRenders[$type]['template'])
                     ->setRenderedBlock($this);
         }
-//        var_dump($this->_itemRenders[$type]['blockInstance']);
+//        var_dump($this->_itemRenders);
+//        die;
         return $this->_itemRenders[$type]['blockInstance'];
     }
 
@@ -170,7 +176,10 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
      */
     public function getItemHtml(Mage_Sales_Model_Quote_Item $item)
     {
+        //TODO 1
+//        var_dump($this->getItemRenderer($item->getProductType()));
         $renderer = $this->getItemRenderer($item->getProductType())->setItem($item);
+//        var_dump($renderer);
         return $renderer->toHtml();
     }
 

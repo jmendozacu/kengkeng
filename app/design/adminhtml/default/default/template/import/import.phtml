@@ -58,7 +58,8 @@ foreach ($collection as $item) {
 $html .= '</select>';
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.js"></script>
-<div class="columns ">
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<div class="columns" id="app">
     <div id="page:left" class="side-col">
         <h3>Import Products</h3>
         <ul class="tabs" id="slide_tabs">
@@ -91,8 +92,8 @@ $html .= '</select>';
 
                     <!-- demo root element -->
                     <div id="demo">
-                        <form target="_blank" id="form-upload-product" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl('admin_import/adminhtml_import/updateProduct')?>">
-                            <table cellspacing="0" class="form-list">
+                        <form @submit="submit" target="_blank" id="form-upload-product" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl('admin_import/adminhtml_import/updateProduct')?>">
+                            <table cellspacing="0" class="form-list" id="upload-image">
                                 <tbody>
                                 <tr>
                                     <td class="label">
@@ -137,6 +138,20 @@ $html .= '</select>';
                                     <?php //echo $html; ?>
                                 </td>
                             </tr> -->
+                                <tr >
+                                    <td class="label">
+                                        <label>Upload your images</label>
+                                    </td>
+<!--                                    #########-->
+                                    <td class="value">
+                                        <input id="images" class="input-file" type="file" @change="initData" multiple="multiple"/>
+                                        <p><strong>Note: </strong><i>Just accept *.jpg,*.png file.</i></p>
+                                        <p> <button @click="upload()" type="button" >Upload</button> </p>
+                                        <span id="loading-data-upload" style="display: none">
+                                            <img width="30" src="<?php echo $this->getSkinUrl('images') . '/ajax-loader.gif' ?>"/>
+                                        </span>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td class="label">
                                         <input name="form_key" type="hidden" id="formkey"
@@ -145,26 +160,46 @@ $html .= '</select>';
                                         <label>Select a File</label>
                                     </td>
                                     <td class="value">
-                                        <input onchange="getDataFile();" class="input-file" type="file" name="productfeed"/>
+<!--                                        <input onchange="getDataFile();" class="input-file" type="file" name="productfeed"/>-->
+                                        <input @change="getDataFile" class="input-file" type="file" name="productfeed"/>
                                         <p><strong>Note: </strong><i>Just accept csv file.</i></p>
+                                        <span class="loading-data" v-show="isLoad">
+                                            <img width="30" src="<?php echo $this->getSkinUrl('images') . '/ajax-loader.gif' ?>"/>
+                                        </span>
                                     </td>
                                 </tr>
-                                <tr id="fields-mapping" style="display: none;">
+                                <tr id="fields-mapping"  v-show="isShow">
                                     <td class="label">
                                         Fields mapping
                                     </td>
-                                    <td id="mapping">
+                                    <td>
+                                     <table class="table-mapping" id="table-mapping" >
+                                          <tr>
+                                              <th>Fields in csv file<br/>(first row)</th>
+                                                <th>Product\'s Attribute</th>
+                                         </tr>
+                                         <tr v-for="(row,index) in csv_data" :key="index">
+                                             <input v-if="row=='sku'" name="skuColumnIdx" :value="index" type="hidden" />
 
+                                             <td>{{row}}</td>
+                                             <td>
+                                                 <select :name="'mapFields['+index+']'">
+                                                     <option value="">- Select one Attribute __</option>
+                                                     <option v-for="field in fields" :value="field" :selected="row==field">{{field}}</option>
+                                                 </select>
+                                             </td>
+                                         </tr>
+                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td class="value">
-                                        <button type="button" class="button" onclick="return onImportProduct();">
-                                            <span><span>Import</span></span></button>
-                                        <span class="loading-data" style="display: none">
-                    <img width="30" src="<?php echo $this->getSkinUrl('images') . '/ajax-loader.gif' ?>"/>
-                </span>
+                                        <button   :type="hasCsv?'submit':'button'"  class="button" @click="alert">
+                                            <span><span>{{hasCsv?'Import':'Pls Import a CSV'}}</span></span></button>
+                                        <span class="loading-data" v-show="isLoad">
+                                            <img width="30" src="<?php echo $this->getSkinUrl('images') . '/ajax-loader.gif' ?>"/>
+                                        </span>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -185,6 +220,78 @@ $html .= '</select>';
     </div>
 </div>
 
+<script>
+    var formkey = document.getElementById('formkey').value;
+    var url = '<?php echo $this->getUrl('import/adminhtml_import/upload/')?>form_key/' + formkey
+    var app =  new Vue({
+        el:'#upload-image',
+        data:{
+            images:new FormData(),
+            csv_data:[],
+            fields:[],
+            isShow:false,
+            isLoad:false,
+            hasCsv:false
+        },
+        methods:{
+            upload(){
+                var img_loading = document.getElementById('loading-data-upload');
+                img_loading.style.display = 'block';
+                axios.post(url,this.images,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(function(response){
+                    img_loading.style.display = 'none';
+                    alert("upload success !")
+                })
+            },
+            initData(event){
+                for(let key in event.target.files){
+                    this.images.append('images[]',event.target.files[key])
+                }
+            },
+            getDataFile(event){
+
+                var csv = event.target.files[0];
+                var formData =  new  FormData();
+                formData.append('productfeed',csv);
+                var url = '<?php echo $this->getUrl('import/adminhtml_import/getdatafile/')?>form_key/' + formkey;
+                var app = this;
+                axios.post(url,formData,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(function(response){
+                    app.isLoad =true;
+                    if(response.data===0){
+                        alert("Invalid file.")
+                    } else {
+                        app.csv_data = response.data.maps;
+                        app.fields = response.data.fields;
+                        app.isShow = true;
+                        app.hasCsv = true;
+                        app.isLoad =false;
+                    }
+                })
+            },
+            submit(event){
+                event.preventDefault();
+
+                console.log("submti")
+                if(this.hasCsv===false){
+                    alert('Please Select a file import!')
+                }
+            },
+            alert(){
+                if(this.hasCsv===false){
+                    alert('pls import file csv')
+                }
+            }
+        }
+
+    })
+</script>
 
 <script type="text/javascript">
 

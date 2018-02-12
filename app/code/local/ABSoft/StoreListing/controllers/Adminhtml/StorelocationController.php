@@ -56,13 +56,17 @@ class ABSoft_StoreListing_Adminhtml_StorelocationController extends Mage_Adminht
 		{
 
 			$post_data=$this->getRequest()->getPost();
-
+            var_dump($post_data);
 				if ($post_data) {
 
 					try {
-
+                        var_dump($_FILES);
+//                        die;
                         if(isset($_FILES['img']['name']) and (file_exists($_FILES['img']['tmp_name']))) {
                             try {
+//                                echo "had img";
+//                                var_dump($_FILES['img']['name']);
+//                                die;
                                 $uploader = new Varien_File_Uploader('img');
                                 $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png')); // or pdf or anything
 
@@ -74,27 +78,37 @@ class ABSoft_StoreListing_Adminhtml_StorelocationController extends Mage_Adminht
                                 $uploader->setFilesDispersion(false);
 
                                 $path = Mage::getBaseDir('media') . DS."storelisting".DS ;
+                                $path2 = Mage::getBaseDir('media') .DS ;
                                 $name_img = time().$_FILES['img']['name'];
+//                                $uploader->save($path2, $name_img);
+
                                 $uploader->save($path, $name_img);
+
 
                                 $post_data['img'] = $name_img;
                             }catch(Exception $e) {
 
                             }
                         } else {
+
                             if (isset($post_data['img']['delete']) && $post_data['img']['delete'] == 1)
                             {
                                 if ($post_data['img']['value'] != '')
-                                    unlink();
+//                                    unlink();
                                     $this->removeFile($post_data['img']['value']);
                                     $post_data['img'] = '';
                             }
                             else
                             {
-//                                unset($post_data['main_image']);
+//                                var_dump($post_data);
+
+                                $post_data['img'] = $post_data['img']['value'] ;
                             }
                         }
-
+//                        var_dump($post_data);
+//                        die;
+                        $post_data['time_open'] = $post_data['time_open'][0].','.$post_data['time_open'][1].','.substr($post_data['time_open'][2],0,2);
+                        $post_data['time_close'] = $post_data['time_close'][0].','.$post_data['time_close'][1].','.substr($post_data['time_close'][2],0,2);
                         $model = Mage::getModel("storelisting/storelocation")
                             ->setData($post_data)
 						    ->setId($this->getRequest()->getParam("id"))

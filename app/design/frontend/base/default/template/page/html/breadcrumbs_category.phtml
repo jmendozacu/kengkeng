@@ -1,7 +1,4 @@
-<div class="row">
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center breadcrumbs">
-                    <p><i class="fa fa-clock-o fa-3x" aria-hidden="true"></i></p>
-    <p><?php echo $this->__("You can only preorder here! ") ?></p>
-    <p><?php echo $this->__("The exact time you choose in the delivery details. Please note that menu offers and deals are often offered only at certain times of the day.") ?></p>
-</div>
-</div>
+<?php
+$block_head = Mage::getStoreConfig('store_location/product_group/custom_block',Mage::app()->getStore());
+echo $this->getLayout()->createBlock('cms/block')->setBlockId($block_head)->toHtml();
+?>

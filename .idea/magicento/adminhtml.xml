@@ -542,7 +542,17 @@
                     <action>adminhtml/newsletter_problem/</action>
                 </problem>
             </children>
-        </newsletter></menu><acl>
+        </newsletter><salestaff module="salestaff" translate="title">
+            <title>Sale staff</title>
+            <sort_order>70</sort_order>
+            <children>
+                <staff module="salestaff" translate="title">
+                    <title>Manage Staffs</title>
+                    <sort_order>0</sort_order>
+                    <action>salestaffadmin/adminhtml_staff</action>
+                </staff>
+            </children>
+        </salestaff></menu><acl>
         <resources>
             <all>
                 
@@ -696,7 +706,11 @@
                                     </persistent><store_location translate="title" module="storelisting">
 											<title>Store location Section</title>
 											<sort_order>0</sort_order>
-										</store_location><salestaff module="salestaff" translate="title">
+										</store_location><ambase translate="title">
+                                        <title>Amasty - Extensions Information</title>
+                                    </ambase><amstore translate="title">
+                                        <title>Amasty - Extensions Store</title>
+                                    </amstore><salestaff module="salestaff" translate="title">
                                         <title>Salestaff</title>
                                         <sort_order>1</sort_order>
                                     </salestaff><brands translate="title" module="brands">
@@ -717,7 +731,10 @@
                                     </ultimo_layout><ultraslideshow translate="title" module="ultraslideshow">
 										<title>Slideshow</title>
 										<sort_order>1</sort_order> 
-                                    </ultraslideshow></children>
+                                    </ultraslideshow><my_config translate="title" module="modulename">
+											<title>test Section</title>
+											<sort_order>0</sort_order>
+										</my_config></children>
                             </config>
                             <currency translate="title">
                                 
@@ -877,7 +894,38 @@
                                             </edit>
                                         </children>
                                     </rest_attributes></children>
-                            </api></children>
+                            </api><amrolepermissions translate="title">
+                                <title>Role Permissions</title>
+                                <children>
+                                    <product_owner translate="title">
+                                        <title>Allow to View/Edit Product Owner</title>
+                                    </product_owner>
+                                    <delete_products translate="title">
+                                        <title>Allow to Delete Products</title>
+                                    </delete_products>
+                                    <delete_customers translate="title">
+                                        <title>Allow to Delete Customers</title>
+                                    </delete_customers>
+                                    <save_products translate="title">
+                                        <title>Allow to Create And Edit Products</title>
+                                    </save_products>
+                                    <save_customers translate="title">
+                                        <title>Allow to Save Customers</title>
+                                    </save_customers>
+                                    <create_categories translate="title">
+                                        <title>Allow to Create Categories</title>
+                                    </create_categories>
+                                    <delete_categories translate="title">
+                                        <title>Allow to Delete Categories</title>
+                                    </delete_categories>
+                                    <categories translate="title">
+                                        <title>Allow Advanced: Categories</title>
+                                    </categories>
+                                    <products translate="title">
+                                        <title>Allow Advanced: Products</title>
+                                    </products>
+                                </children>
+                            </amrolepermissions></children>
                     </system>
                     <global_search translate="title">
                         <title>Global Search</title>
@@ -1255,4 +1303,26 @@
                 </create>
             </default>
         </privilegeSets>
-    </acl></config>
+    </acl><events>
+        <controller_action_predispatch>
+            <observers>
+                <ambase_upds>
+                    <type>singleton</type>
+                    <class>ambase/feed</class>
+                    <method>check</method>
+                </ambase_upds>
+            </observers>
+        </controller_action_predispatch>
+    </events><translate>
+        <modules>
+            <Amasty_Base>
+                <files>
+                    <default>Amasty_Base.csv</default>
+                </files>
+            </Amasty_Base>
+        <Amasty_Rolepermissions>
+                <files>
+                    <default>Amasty_Rolepermissions.csv</default>
+                </files>
+            </Amasty_Rolepermissions></modules>
+    </translate></config>

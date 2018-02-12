@@ -70,9 +70,11 @@ class ABSoft_StoreListing_CartController extends Mage_Checkout_CartController {
 
                             //lấy tất cả các options từ request
                             $options=[];
-                            foreach ($params['options'] as $option) {
-                                foreach ($option as $optionValue) {
-                                    $options[]=$optionValue;
+                            if($params['options']){
+                                foreach ($params['options'] as $option) {
+                                    foreach ($option as $optionValue) {
+                                        $options[]=$optionValue;
+                                    }
                                 }
                             }
                             $product_id= $params['product'];

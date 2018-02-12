@@ -11,6 +11,8 @@ class PromotionalImportLoger
      */
     public function log($data, $type)
     {
+        echo "Type:".$type."---".$data."<br>";
+
         Mage::log("$type: $data");
     }
 }
@@ -34,7 +36,7 @@ class ABSoft_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller
     public $attributes = [
         // 'entity_id',
         'sku',
-        'store',
+//        'store',
         'featured',
         'name',
         'description',
@@ -69,7 +71,49 @@ class ABSoft_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller
         $this->loadLayout();
         $this->renderLayout();
     }
+    public function uploadAction(){
+        $rule = Mage::helper('amrolepermissions')->currentRule()->getData();
+        $store_id = $rule['scope_storeviews'][0];
+        $store_code = Mage::getModel('core/store')->load($store_id)->getCode();
+        $count= count($_FILES['images']['name']);
+        $data=[];
+        for ($i=0; $i < $count; $i++) {
 
+            if(isset($_FILES['images']['name'][$i]) and (file_exists($_FILES['images']['tmp_name'][$i]))){
+                try{
+                    // $_FILES['images']['name'][$i];
+                    $path = Mage::getBaseDir('media'). DS .'import' . DS .$store_code. DS;
+                    if(!file_exists($path)){
+                        mkdir($path,777);
+                    }
+                    // $uploader = new Varien_File_Uploader('images');
+                    $uploader = new Varien_File_Uploader(
+                        array(
+                            'name' => $_FILES['images']['name'][$i],
+                            'type' => $_FILES['images']['type'][$i],
+                            'tmp_name' => $_FILES['images']['tmp_name'][$i],
+                            'error' => $_FILES['images']['error'][$i],
+                            'size' => $_FILES['images']['size'][$i]
+                        )
+                    );
+
+                    $uploader->setAllowedExtensions(array('jpg','png','gif','jpeg'));
+                    $uploader->setAllowRenameFiles(false);
+                    $uploader->setFilesDispersion(false);
+                    $destFile = $path.$_FILES['images']['name'][$i];
+                    $filename = $uploader->getNewFileName($destFile);
+                    $uploader->save($path, $filename);
+                    $data['img'][] = $_FILES['images']['name'][$i];
+
+                }catch(Exception $e) {
+                    echo $e;
+                    // echo "<pre>";
+                    // print_r($e);
+                }
+            }
+        }
+        echo json_encode($data);
+    }
     public function getdatafileAction()
     {
         $allowedExts = array("csv");
@@ -78,6 +122,7 @@ class ABSoft_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller
         $k = 1;
         $result = array();
         $maps = array();
+        $maps['fields'] = $this->attributes;
         if (in_array($extension, $allowedExts)) {
 
             if (($handle = fopen($_FILES["productfeed"]["tmp_name"], "r")) !== FALSE) {
@@ -89,30 +134,30 @@ class ABSoft_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller
                     $k++;
                 }
             }
-            $mapping = '<table class="table-mapping" id="table-mapping">';
-            $mapping .= '<tr>';
-            $mapping .= '<th>Fields in csv file<br/>(first row)</th>';
-            $mapping .= '<th>Product\'s Attribute</th>';
-            $mapping .= '<tr>';
-            $skuIndexColumn = null;
-            foreach ($maps['maps'] as $k => $v) {
-                $mapping .= '<tr class="row-key">';
-                $mapping .= '<td class="csv-key">' . $v . '</td>';
-                $mapping .= '<td class="data-key">' . $this->getSelectFields($k, $v) . '</td>';
-                $mapping .= '</tr>';
-                if($v=='sku') $skuIndexColumn = $k;
-            }
-            $mapping .= '</table>';
-            $mapping.= sprintf('<input name="skuColumnIdx" value="%s" type="hidden" />', $skuIndexColumn);
-            $result['mapFields'] = $mapping;
-            echo json_encode($result);
+            echo json_encode($maps);
+//            $mapping = '<table class="table-mapping" id="table-mapping">';
+//            $mapping .= '<tr>';
+//            $mapping .= '<th>Fields in csv file<br/>(first row)</th>';
+//            $mapping .= '<th>Product\'s Attribute</th>';
+//            $mapping .= '<tr>';
+//            $skuIndexColumn = null;
+//            foreach ($maps['maps'] as $k => $v) {
+//                $mapping .= '<tr class="row-key">';
+//                $mapping .= '<td class="csv-key">' . $v . '</td>';
+//                $mapping .= '<td class="data-key">' . $this->getSelectFields($k, $v) . '</td>';
+//                $mapping .= '</tr>';
+//                if($v=='sku') $skuIndexColumn = $k;
+//            }
+//            $mapping .= '</table>';
+//            $mapping.= sprintf('<input name="skuColumnIdx" value="%s" type="hidden" />', $skuIndexColumn);
+//            $result['mapFields'] = $mapping;
+//            echo json_encode($result);
         } else {
             echo '0';
         }
 
     }
-    public function testAction(){
-            }
+
     /**
      * TODO: auto assign csv header to product item
      */
@@ -185,6 +230,7 @@ class ABSoft_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller
                 foreach ($post['mapFields'] as $key =>$code) {
                     echo "[{$key}]={$code}<br>";
                 }
+                $product_skus = array();
                 // var_dump($skuColumnIdx);
                 foreach ($rows as $row) {
 
@@ -206,7 +252,8 @@ class ABSoft_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller
                     // $simpleSkus [] = $sku;
 
                     unset($product);
-                    $product['sku'] = $sku;
+                    $product['sku'] = $sku.time();
+                    array_push($product_skus,$product['sku']);
 //                    $product['website']= 'base';
                     $product['visibility']= Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH;
                     $product['attribute_set'] = 'Default';
@@ -260,6 +307,7 @@ class ABSoft_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller
                                     $row[$k] = str_replace("[ROOT_CATEGORY]","[".$_category->getName()."]",$row[$k]);;
                                 }
                                 $product['categories'] = trim($row[$k]);
+//                                $product['categories'] = 'web1/abc';
                                 break;
                             case 'price':
                                 $product['price']=trim($row[$k]);
@@ -291,13 +339,16 @@ class ABSoft_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller
                                 $product['qty'] = trim($row[$k]);
                                 break;
                             case 'image':
-                                $product['image'] = trim($row[$k]);
+                                $product['image'] = './'.$store_code.'/'.trim($row[$k]);
                                 break;
                             case 'small_image':
-                                $product['small_image'] = trim($row[$k]);
+                                $product['small_image'] = './'.$store_code.'/'.trim($row[$k]);
                                 break;
                             case 'thumbnail':
-                                $product['thumbnail'] = trim($row[$k]);
+                                $product['thumbnail'] = './'.$store_code.'/'.trim($row[$k]);
+                                break;
+                                case 'media_gallery':
+                                $product['media_gallery'] = './'.$store_code.'/'.trim($row[$k]);
                                 break;
                             case 'custom_options':
                                 $product[$head[$k]] = trim($row[$k]);
@@ -314,7 +365,7 @@ class ABSoft_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller
                 //$this->reindexAction();
                 echo 'Total ' . ($n - 1) . ' products has been ' . $type . 'ed.<br/>';
                 echo 'Excution time: ' . (microtime(true) - $startTime);
-
+//                var_dump($product_skus);
             }
             $dp->endImportSession();
         }

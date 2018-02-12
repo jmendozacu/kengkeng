@@ -58,6 +58,7 @@ class Basetut_Salestaff_Block_Adminhtml_Staff_Edit_Tab_Form extends Mage_Adminht
 			'readonly' => false,
 			'tabindex' => 1
 		));
+
 		/*View truong kieu note*/
 		if($this->getRequest()->getParam('id')){
 			$fieldset->addField('items_qty', 'note', array(

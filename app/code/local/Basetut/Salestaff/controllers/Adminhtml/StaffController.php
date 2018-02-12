@@ -96,6 +96,11 @@ class Basetut_Salestaff_Adminhtml_StaffController extends Mage_Adminhtml_Control
             Mage::register('salestaff_data', $model);
 
             $this->loadLayout();
+            $this->_setActiveMenu('salestaff/salestaff');
+
+            $this->_addBreadcrumb(
+                    Mage::helper('adminhtml')->__('Staff Manager'), Mage::helper('adminhtml')->__('Staff Manager')
+            );
 
             $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
             $this->_addContent($this->getLayout()->createBlock('salestaff/adminhtml_staff_edit'))

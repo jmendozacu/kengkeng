@@ -1,0 +1,140 @@
+<?php
+/**
+ * @var ABSoft_StoreListing_Block_Product $this
+ */
+$data = $this->getProductByCategory();
+//$products = $this->getProduct()->addAttributeToSelect(['name', 'price']);
+$helperCart = $this->helper('checkout/cart');
+$productInCarts = $this->getProductInCart();
+$categorys = $this->getCategorys();
+$cart = $this->getCart();
+$store_open = $this->getLayout()->createBlock('storelisting/list')->getStoreIsOpen();
+
+?>
+
+<div class="col-md-12 category-main-title"><span><b><?php echo $data['category']->getName() ?></b></span></div>
+<?php if ($data['category']->getThumbnail() != "") { ?>
+    <div class="col-md-12 category-image"><img
+            src="<?php echo Mage::getBaseUrl('media') . 'catalog/category/' . $data['category']->getThumbnail() ?>"/>
+    </div><?php } ?>
+<?php if ($data['category']->getDescription() != "") { ?>
+    <div class="col-md-12 category-sub-title"><span><?php echo $data['category']->getDescription() ?></span></div>
+<?php } ?>
+<?php if (count($data['products']) > 0) { ?>
+    <?php foreach ($data['products'] as $product) { ?>
+
+            <div class="col-md-12 col-xs 12 product-item clearfix">
+                <form action="<?php echo $helperCart->getAddUrl($product) ?>"
+                      id="form-<?php echo $product->getEntityId() ?>" method="post">
+                    <input type="hidden" name="product_name" value="<?php echo $product->getName() ?>">
+                    <!--            <input type="hidden" name="product_sku" value="--><?php //echo $product->getSku() ?><!--">-->
+                    <input type="hidden" name="product" value="<?php echo $product->getEntityId() ?>">
+
+                    <input type="hidden" name="qty" value="1">
+                <div class="col-md-8 col-xs-8 float-left"><span><?php echo $product->getName() ?></span></div>
+                <div class="col-md-4 col-xs-4 float-right">
+                    <?php if($store_open){ ?>
+                    <button  class="btn btn-add-cart <?php echo $product->getHasOptions()==1  && count($this->getOptionsProduct($product->getEntityId()))>0 ?"hasOptions":""?>"
+                            <?php if(count($this->getOptionsProduct($product->getEntityId()))==0){ ?>
+                                onclick="<?php echo 'form_'.$product->getEntityId().'.submit()'?>"
+                            <?php }?>
+                            type="button"
+                        <?php if ($product->getHasOptions() == 1 && count($this->getOptionsProduct($product->getEntityId()))>0) { ?>
+                            data-modal="modal-<?php echo $product->getSku() ?>"
+                        <?php } ?>
+                    >
+                        <?php
+                        echo number_format((float)$product->getPrice(), 2, '.', '');
+                        echo " ".$cart->getQuoteCurrencyCode();
+                        ?>
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                    <?php } else {?>
+                        <button type="button" class="btn btn-add-cart">
+                            <?php
+                            echo number_format((float)$product->getPrice(), 2, '.', '');
+                            echo " ".$cart->getQuoteCurrencyCode();
+                            ?>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                    <?php } ?>
+                    <?php if ($product->getHasOptions() != 0 && count($this->getOptionsProduct($product->getEntityId()))>0) { ?>
+                        <?php $options = $this->getOptionsProduct($product->getEntityId()) ?>
+                        <div class="modal" id="modal-<?php echo $product->getSku() ?>" style="display: none">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3><?php echo $product->getName() ?></h3>
+                            </div>
+                            <div class="modal-body">
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <?php foreach ($options as $index => $option) { ?>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab"
+                                                 data-child="collapse-<?php echo $index ?>">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                                       href="#collapseOne" aria-expanded="true"
+                                                       aria-controls="collapseOne">
+                                                        <?php echo $option['title'] ?>
+                                                    </a>
+                                                        <div class="validation-advice" id="advice-validate-one-required-by-name-<?php echo $option['option_value'][0]['option_type_id'] ?>" style="display: none"><?php echo $this->__('Please click here and select one of the blow options.')?></div>
+                                                </h4>
+                                            </div>
+
+                                            <div id="collapse-<?php echo $index ?>" class="panel-collapse collapse"
+                                                 role="tabpanel" aria-labelledby="headingOne">
+                                                <div class="panel-body">
+                                                    <?php foreach ($option['option_value'] as $index1 => $value) { ?>
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 ">
+                                                            <div class="<?php  echo $option['type'] ?> icheck-warning">
+                                                                    <input type="<?php echo $option['type'] ?>"
+                                                                           name="options[<?php echo $option['option_id'] ?>][]"
+                                                                           value="<?php echo $value['option_type_id'] ?>"
+                                                                           class="<?php
+                                                                           echo $option['type']." ";
+                                                                           if($index1==0){
+                                                                           echo $option['is_require'] == 1 ? "validate-one-required-by-name" : "";
+                                                                           }
+                                                                           ?>"
+                                                                           id="<?php echo $value['option_type_id'] ?>"
+                                                                    >
+                                                                <label for="<?php echo $value['option_type_id'] ?>" >
+                                                                <?php echo $value['title']; ?>
+                                                                </label>
+
+                                                                <div class="float-right"
+                                                                         style="margin-left: 10px"><?php
+                                                                        echo number_format((float)$value['price'], 2, '.', '');
+                                                                        echo " ".$cart->getQuoteCurrencyCode();
+                                                                        ?></div>
+                                                            </div>
+                                                        </div>
+
+                                                    <?php } ?>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success"
+                                        onclick="form_<?php echo $product->getEntityId()?>.submit()"><?php echo $this->__('ADD TO CART ');?>
+                                </button>
+                            </div>
+
+                        </div>
+                    <?php } ?>
+                </div>
+                </form>
+                <script>
+                    var form_<?php echo $product->getEntityId() ?> = new form_product('<?php echo "form-" . $product->getEntityId() ?>',<?php echo (float)$product->getPrice() ?>,<?php echo json_encode($options) ?>)
+                </script>
+            </div>
+
+
+    <?php } ?>
+<?php } ?>

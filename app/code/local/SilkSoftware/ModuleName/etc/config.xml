@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <SilkSoftware_ModuleName>
+      <version>0.1.0</version>
+    </SilkSoftware_ModuleName>
+  </modules>
+  <global>
+    <helpers>
+      <modulename>
+        <class>SilkSoftware_ModuleName_Helper</class>
+      </modulename>
+    </helpers>
+  </global>
+</config> 

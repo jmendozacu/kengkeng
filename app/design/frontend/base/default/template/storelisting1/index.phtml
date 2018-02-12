@@ -1,0 +1,80 @@
+<?php
+/**
+ * @var ABSoft_StoreListing_Block_Index $this
+ */
+
+$section_1 = Mage::getStoreConfig('store_location/index_group/section_1',Mage::app()->getStore());
+$section_2 = Mage::getStoreConfig('store_location/index_group/section_2',Mage::app()->getStore());
+$section_3 = Mage::getStoreConfig('store_location/index_group/section_3',Mage::app()->getStore());
+$section_4 = Mage::getStoreConfig('store_location/index_group/section_4',Mage::app()->getStore());
+$section_5 = Mage::getStoreConfig('store_location/index_group/section_5',Mage::app()->getStore());
+echo $this->getLayout()->createBlock('cms/block')->setBlockId($block_head)->toHtml();
+?>
+
+<div class="container-fuild">
+    <div class="container container-1">
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <div class="page-title">
+                    <h1 class="title">
+                        <span>KENGKENG</span>
+                    </h1>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                    <div class="page-control">
+                        <div class="panel-control">
+                            <div class="title-form">
+                                Deine Straße, Hausnummer & PLZ
+                            </div>
+                            <div class="content-form">
+                                <form id="person-form-validate" class="form-inline" method="get"
+                                      action="<?php echo $this->getActionOfForm() ?>">
+                                    <input type="text" placeholder="Pizzastraße 1, 10117, Berlin"
+                                           class="form-control required-entry input-search" value="" name="search"
+                                           id="search-input" autocomplete="off">
+                                    <input type="hidden" name="lng" id="lng">
+                                    <input type="hidden" name="lat" id="lat">
+                                    <input type="submit" class="btn btn-success btn-search"
+                                           value="<?php echo $this->__('Search') ?>">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container container-2">
+    <?php
+        echo $this->getLayout()->createBlock('cms/block')->setBlockId($section_1)->toHtml();
+    ?>
+</div>
+<div class="container container-3">
+    <?php
+        echo $this->getLayout()->createBlock('cms/block')->setBlockId($section_2)->toHtml();
+    ?>
+
+</div>
+<div class="container container-6">
+    <?php
+        echo $this->getLayout()->createBlock('cms/block')->setBlockId($section_3)->toHtml();
+    ?>
+</div>
+<div class="container container-4">
+    <?php
+        echo $this->getLayout()->createBlock('cms/block')->setBlockId($section_4)->toHtml();
+    ?>
+
+</div>
+<div class="container container-5">
+    <?php
+        echo $this->getLayout()->createBlock('cms/block')->setBlockId($section_5)->toHtml();
+    ?>
+</div>

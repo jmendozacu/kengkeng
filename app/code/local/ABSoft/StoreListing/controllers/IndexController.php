@@ -27,6 +27,79 @@ class ABSoft_StoreListing_IndexController extends Mage_Core_Controller_Front_Act
         $this->renderLayout();
 
     }
+    public function storesAction(){
+        $lat  = Mage::app()->getRequest()->getPost('lat');
+        $lng  = Mage::app()->getRequest()->getPost('lng');
+        $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+        $sql        = "SELECT core_store.name as namestore, img,time_open,store_location.store_id, core_store.code as code_store ,address ,city,latitude,longitude,
+        ( 3959 * acos( cos( radians(".$lat.") ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(".$lng.") ) + sin( radians(".$lat.") ) *sin( radians( latitude ) ) ) ) AS distance
+        FROM store_location INNER JOIN core_store ON core_store.store_id = store_location.store_id ORDER BY distance";
+
+        $rows       = $connection->fetchAll($sql);
+        $new_rows = array();
+//        $stores = Mage::getModel('storelisting/storelocation')->getCollection();
+//
+        foreach ($rows as $row) {
+            $row['rating']= $this->getRatingSummaryStore($row['store_id']);
+            $row['lowest']= $this->getLowestPriceProductStore($row['store_id']);
+            $row['highest']= $this->getProductHighestPriceByStore($row['store_id']);
+            array_push($new_rows,$row);
+        }
+        echo json_encode($new_rows);
+    }
+
+    public function getRatingSummaryStore($store_id){
+        $summarys = Mage::getModel('review/review_summary')
+            ->getCollection()
+            ->addStoreFilter($store_id)
+            ->addFieldToFilter('reviews_count',array('gt'=>0));
+        if(count($summarys)>0) {
+            $countSummary=0;
+            foreach ($summarys->getItems() as $summary){
+                $countSummary+=(int)$summary->getRatingSummary();
+            }
+            return $countSummary/count($summarys->getItems());
+        } else {
+            return 0;
+        }
+    }
+    /**
+     * get product lowset price
+     *
+     * @param string $store_id
+     * @return int $price
+     */
+    public function getLowestPriceProductStore($store_id){
+        $colections = Mage::getModel('catalog/product')->getCollection()
+            ->addStoreFilter($store_id)->addAttributeToSelect('price'); //sets the order by price
+        $product_price=array();
+        foreach ($colections as $product) {
+            array_push($product_price,$product->getPrice());
+        }
+        sort($product_price);
+        if(count($product_price)>0)
+            return (float)$product_price[0];
+        return 0;
+
+    }
+
+    /**
+     * return product highest price in store
+     * @param $store_id
+     * @return int $highest_price
+     */
+    public function getProductHighestPriceByStore($store_id){
+        $colections = Mage::getModel('catalog/product')->getCollection()
+            ->addStoreFilter($store_id)->addAttributeToSelect('price'); //sets the order by price
+        $product_price=array();
+        foreach ($colections as $product) {
+            array_push($product_price,$product->getPrice());
+        }
+        rsort($product_price);
+        if(count($product_price)>0)
+            return (float)$product_price[0];
+        return 0;
+    }
 
     public function listAction()
     {
@@ -118,15 +191,7 @@ class ABSoft_StoreListing_IndexController extends Mage_Core_Controller_Front_Act
         return $countSummary;
     }
 
-    public function getRatingSummaryStore($store_id)
-    {
-        $summarys = Mage::getModel('review/review_summary')->getCollection()->addStoreFilter($store_id);
-        $countSummary = 0;
-        foreach ($summarys->getItems() as $summary) {
-            $countSummary += (int)$summary->getRatingSummary();
-        }
-        return $countSummary ;
-    }
+
 
     public function getRatings()
     {

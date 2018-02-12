@@ -1,0 +1,74 @@
+<?php
+/**
+ * @var ABSoft_StoreListing_Block_Product_Cart $this
+ * @var Mage_Checkout_Model_Cart $productInCart
+ * @var Mage_Checkout_Helper_Cart $helperCart
+ */
+$cart = $this->getCart();
+$productInCarts = $this->getProductInCart();
+$helperCart = $this->helper('checkout/cart');
+
+
+?>
+<div class="panel panel-primary panel-custom">
+    <div class="panel-heading"><b><?php echo $this->__('SHOPPING CART')?></b><img src="/media/storelisting/Loading_icon.gif" style="float: right;width:20px" class="hidden cart-loadding" alt=""></div>
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 100px;"><?php echo $this->__('Qty');?></th>
+                <th><?php echo $this->__('Name');?></th>
+                <th><?php echo $this->__('Price');?></th>
+            </tr>
+            </thead>
+            <tbody id="detail-cart">
+            <?php foreach ($productInCarts as $productInCart) { ?>
+                <tr data-product="<?php echo $productInCart->getProductId() ?>"
+                    data-item-id="<?php echo $productInCart->getItemId() ?>"
+                    data-options-checked="<?php echo $this->getOptionsChecked($productInCart->getItemId()) ?>"
+                    data-price="<?php echo number_format((float)$productInCart->getPrice(), 2, '.', ''); ?>"
+                    class="row-product product-has-options">
+                    <?php $product = $this->getProduct($productInCart->getProductId()) ?>
+                    <td class='qty' scope="row">
+                        <div class='qty-minus btn-qty'><i class='fa fa-minus' aria-hidden='true'></i></div>
+
+                            <span class="text-qty"><?php echo $productInCart->getQty() ?></span>
+                            <div class='qty-plus btn-qty'><i class='fa fa-plus' aria-hidden='true'></i></div>
+
+                    </td>
+
+                    <td class='name'><?php echo $this->getNameProductIncart($productInCart->getItemId()) ?></td>
+                    <td class='total'><?php echo number_format((float)$productInCart->getRowTotal(), 2, '.', ''); ?></td>
+                </tr>
+            <?php } ?>
+            <?php if (count($productInCarts)<=0){ ?>
+            <tr class="shop-cart-empty">
+                <td colspan="3" class="text-center ">
+                    <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'storelisting/cart-empty.png' ?>" alt="">
+                    <p><?php echo $this->__('Currently you can only preorder here!') ?></p>
+                </td>
+            </tr>
+            <?php } ?>
+
+            </tbody>
+            <tbody class="shop-close" style="display: none">
+            <tr >
+                <td colspan="3" class="text-center ">
+                    <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'storelisting/apps.png' ?>" alt="" style="height: 200px">
+                    <p><?php echo $this->__('At the moment an online order is not possible!') ?></p>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="1"><?php echo $this->__('TOLTAL');?></th>
+                <th colspan="1" id="grand-total" style="float: right;"><?php echo number_format((float)$cart->getGrandTotal(), 2, '.', ''); ?></th>
+                <th colspan="1"><?php echo " ".$cart->getQuoteCurrencyCode() ?></th>
+
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<?php echo $this->getChildHtml('checkout.onepage') ?>

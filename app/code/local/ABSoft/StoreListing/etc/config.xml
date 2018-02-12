@@ -2,7 +2,7 @@
 <config>
     <modules>
         <ABSoft_StoreListing>
-            <version>0.1.1</version>
+            <version>0.1.2</version>
         </ABSoft_StoreListing>
     </modules>
     <frontend>
@@ -96,7 +96,6 @@
                     </storelocation>
                 </children>
             </storelisting>
-
         </menu>
         <acl>
             <resources>
@@ -127,4 +126,11 @@
             </updates>
         </layout>
     </adminhtml>
+    <default>
+        <absoft_storelisting>
+            <basic_config>
+                <block_head_product>adfadfaf</block_head_product>
+            </basic_config>
+        </absoft_storelisting>
+    </default>
 </config> 

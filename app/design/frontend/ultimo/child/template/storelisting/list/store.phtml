@@ -1,0 +1,78 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Truong Tuan Dat
+ * Date: 11/13/2017
+ * Time: 4:18 PM
+ */
+
+/**
+ * @var $this ABSoft_StoreListing_Block_List
+ */
+$stores = $this->getStoreNearMe();
+$currency_code = Mage::app()->getLocale()->currency( Mage::app()->getStore()->getCurrentCurrencyCode() )->getSymbol();
+?>
+
+<?php foreach ($stores as $store):  ?>
+    <div class="row restaurant"
+         data-distance='<?php echo number_format((float)$store['distance'], 2, '.', ''); ?>'
+         data-rating='<?php echo $store['rating']; ?>'
+         data-lowest='<?php echo $store['lowest']; ?>'
+         data-highest='<?php echo $store['highest']; ?>'
+    >
+        <div class=" col-xs-12 col-sm-12 col-md-12">
+            <div class="border-box">
+                <div class="restaurant-detail">
+                    <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).$store['code_store'].'/storelisting/index/product'?>" style="color: black">
+
+                        <div class="col-md-2 col-xs-4 restaurant-detail-left">
+                            <div class="restaurant-logo">
+                                <img  src="/media/storelisting/<?php echo $store['img'] ?>" alt=""></div>
+                        </div>
+                    </a>
+                    <div class="col-md-10 col-xs-8 restaurant-detail-right">
+                        <div class="row">
+                            <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).$store['code_store'].'/storelisting/index/product'?>" style="color: black">
+
+                                <div class="col-md-8 col-xs-12">
+                                    <div class="restaurant-name"><h3><?php echo $store['namestore'] ?></h3></div>
+                                    <div class="restaurant-address"><?php echo $store['address'] ?></div>
+                                </div>
+                            </a>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="restaurant-item-start">
+                                    <div class="count-review" data-store-id="<?php echo $store['store_id'] ?>"
+                                         style="cursor: pointer">
+                                        (<?php echo $store['count_review'] ?>)
+                                    </div>
+
+                                    <div class="rating-box">
+                                        <div class="rating" style="width: <?php echo $store['percent'] ?>%"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="restaurant-info">
+                    <div class="col-md-4 col-xs-4">
+                        <div class="restaurant-feature-cart-icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        </div>
+                        <div class="restaurant-feature-cart-text"><span><?php echo $this->__('Min. ').$store['lowest'].' '.$currency_code;?> </span></div>
+                    </div>
+                    <div class="col-md-4 col-xs-4">
+                        <div class="restaurant-feature-cart-icon"><i class="fa fa-bicycle" aria-hidden="true"></i></div>
+                        <div class="restaurant-feature-cart-text"><span><?php echo number_format((float)$store['distance'], 2, '.', ''); ?> KM</span></div>
+                    </div>
+                    <div class="col-md-4 col-xs-4">
+                        <div class="restaurant-feature-cart-icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                        <div class="restaurant-feature-cart-text"><span><?php echo str_replace(',',':',$store['time_open'] ).' - '.str_replace(',',':',$store['time_close'] ) ?></span></div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<?php endforeach; ?>

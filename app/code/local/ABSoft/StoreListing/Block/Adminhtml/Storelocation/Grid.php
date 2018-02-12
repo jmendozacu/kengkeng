@@ -85,6 +85,7 @@ class ABSoft_StoreListing_Block_Adminhtml_Storelocation_Grid extends Mage_Adminh
     static public function getStores()
     {
         $store_locations = array();
+        $stores = array();
         $store_location = Mage::getModel('storelisting/storelocation')->getCollection();
         foreach ($store_location as $item) {
             $store_locations[$item->getStoreId()] = "";
